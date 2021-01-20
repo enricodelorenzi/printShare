@@ -13,5 +13,6 @@ public class MainActivity extends AppCompatActivity {
         float pluto =2;
         int pippo = 12;
         int paperino = 2;
+        int pippo2 = 23;
     }
 }
