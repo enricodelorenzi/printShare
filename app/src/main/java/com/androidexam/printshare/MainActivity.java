@@ -38,10 +38,14 @@ public class MainActivity extends Activity {
         db = new Database(FirebaseDatabase.getInstance());
 
         db.clean();
-        db.register(new User("my_username", "Genova"));
-        db.register(new User("second_username", "Palermo"));
-        db.register(new User("third_username", "Innsbruck"));
-        db.register(new User("fourth_username", "Linz"));
+
+        register.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                db.register(new User(username_text.getText().toString(), position_text.getText().toString()));
+            }
+        });
+        
         db.readUserFromDb("second_username");
 
     }
