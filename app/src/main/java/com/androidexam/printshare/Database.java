@@ -20,7 +20,7 @@ public class Database {
     Database(){}
 
     Database(FirebaseDatabase db){
-       database_root = db.getReference();
+        database_root = db.getReference();
     }
 
     Database(FirebaseDatabase db, String child_path){
@@ -73,5 +73,5 @@ public class Database {
         return true;
     }
 
-    
+
 }

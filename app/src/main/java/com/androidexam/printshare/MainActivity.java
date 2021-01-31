@@ -45,7 +45,7 @@ public class MainActivity extends Activity {
                 db.register(new User(username_text.getText().toString(), position_text.getText().toString()));
             }
         });
-        
+
         db.readUserFromDb("second_username");
 
     }
