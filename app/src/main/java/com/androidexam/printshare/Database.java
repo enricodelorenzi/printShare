@@ -4,6 +4,8 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -50,7 +52,7 @@ public class Database {
                 for (DataSnapshot pair : snapshot.getChildren()){
                     String read_username = pair.getKey();
                     String read_position = pair.child("position").getValue(String.class);
-                    Log.i("User info ",read_username + ", " + read_position);
+                    int user_info_ = Log.i("User info ", read_username + ", " + read_position);
                     usrs.add(new User("pippo","Parigi"));
                 }
             }

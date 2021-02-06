@@ -10,7 +10,7 @@
         android:id="@+id/username_label"
         android:layout_width="164dp"
         android:layout_height="41dp"
-        android:layout_marginStart="44dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="76dp"
         android:text="Username"
         android:textAlignment="center"
@@ -22,8 +22,8 @@
         android:id="@+id/position_label"
         android:layout_width="164dp"
         android:layout_height="41dp"
-        android:layout_marginStart="46dp"
-        android:layout_marginTop="54dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="52dp"
         android:text="Position"
         android:textAlignment="center"
         android:textSize="24sp"
@@ -34,21 +34,23 @@
         android:id="@+id/register"
         android:layout_width="160dp"
         android:layout_height="77dp"
-        android:layout_marginStart="320dp"
-        android:layout_marginBottom="337dp"
+        android:layout_marginStart="204dp"
+        android:layout_marginBottom="376dp"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/position_text"
+        app:layout_constraintVertical_bias="1.0" />
 
     <EditText
         android:id="@+id/username_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="75dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="76dp"
         android:ems="10"
+        android:hint="username"
         android:inputType="textPersonName"
-        android:text="username"
         app:layout_constraintStart_toEndOf="@+id/username_label"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -56,12 +58,34 @@
         android:id="@+id/position_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="73dp"
-        android:layout_marginTop="49dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="44dp"
         android:ems="10"
+        android:hint="position"
         android:inputType="textPersonName"
-        android:text="position"
         app:layout_constraintStart_toEndOf="@+id/position_label"
         app:layout_constraintTop_toBottomOf="@+id/username_text" />
+
+    <Button
+        android:id="@+id/get_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="100dp"
+        android:text="get location"
+        app:layout_constraintEnd_toStartOf="@+id/register"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/position_label" />
+
+    <TextView
+        android:id="@+id/country_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/get_location"
+        app:layout_constraintVertical_bias="0.484" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
