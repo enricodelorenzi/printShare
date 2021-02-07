@@ -1,52 +1,44 @@
 package com.androidexam.printshare;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.view.View.OnClickListener;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Button;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
+public class MainActivity extends Activity implements OnClickListener {
 
-
-public class MainActivity extends Activity {
-
-    Database db;
-
-    EditText username_text;
-    EditText position_text;
-    TextView username_label;
-    TextView position_label;
-    Button register;
-
+    private Button registration;
+    private Button login;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        registration = findViewById(R.id.home_registration);
+        login = findViewById(R.id.home_login);
 
-        username_label = (TextView) findViewById(R.id.username_label);
-        username_text = (EditText) findViewById(R.id.username_text);
-        position_label = (TextView) findViewById(R.id.position_label);
-        position_text = (EditText) findViewById(R.id.position_text);
-        register = (Button) findViewById(R.id.register);
+        registration.setOnClickListener(this);
+        login.setOnClickListener(this);
+    }
 
-        db = new Database(FirebaseDatabase.getInstance());
-
-        db.clean();
-
-        register.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                db.register(new User(username_text.getText().toString(), position_text.getText().toString()));
-            }
-        });
-
-        db.readUserFromDb("second_username");
-
+    @Override
+    public void onClick(View v) {
+        Intent intent;
+        switch (v.getId()){
+            case R.id.home_registration : {
+                intent = new Intent(v.getContext() , RegisterActivity.class);
+            }; break;
+            case R.id.home_login : {
+                intent = new Intent(v.getContext(), LoginActivity.class);
+            }; break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + v.getId());
+        }
+        startActivity(intent);
     }
 }
