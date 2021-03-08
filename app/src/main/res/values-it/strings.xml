@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">printShare</string>
+    <string name="title_activity_profile">Profilo</string>
+
+    <!-- Search Activity -->
+    <string name="send_button">Invia</string>
+    <string name="origin_placeholder">Genova</string>
+    <string name="result_textview">Risultati</string>
+    <string name="no_results">Non sono stati trovati risultati.</string>
+    <string name="no_input">Non è stato fornito alcun input.</string>
+    <string name="no_internet_connection">Non vi è alcuna connessione a internet</string>
+    <string name="loading">Caricamento...</string>
+    <string name="zero_results">Impossibile calcolare la distanza.</string>
+    <string name="same_location">Lo utente si trova nella tua stessa città!</string>
+    <string name="printer_label">Modello</string>
+    <string name="place">Luogo</string>
+
+    <!-- Registration Activity -->
+    <string name="username_label_registration">Username</string>
+    <string name="position_label_registration">Posizione</string>
+    <string name="email_label_registration">E-Mail</string>
+    <string name="password_label_registration">Password</string>
+    <string name="confirm_password_label_registration">Conferma password</string>
+    <string name="registration_button">Crea un nuovo account</string>
+
+    <!-- Main Activity -->
+    <string name="home_login_button">Login</string>
+    <string name="home_registration_button">Registrati</string>
+    <string name="home_search_button">Cerca</string>
+    <string name="home_test_button">Test</string>
+
+    <!-- Profile Activity-->
+    <string name="profile_username_label">Username</string>
+    <string name="profile_position_label">Posizione</string>
+    <string name="profile_add_printer_button">Aggiungi una nuova stampante</string>
+    <string name="profile_image">Immagine profilo</string>
+
+    <!-- Menu -->
+    <string name="menu_settings">Settings</string>
+    <string name="menu_home">Home</string>
+
+    <!-- Settings-->
+    <string name="order_result_title">Ordina i risultati</string>
+    <string name="order_result_summary">Ordina i risultati secondo la distanza dagli utenti letti.</string>
+
+
+</resources>

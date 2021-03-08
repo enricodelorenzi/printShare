@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <CheckBoxPreference
+        android:key="pref_order_result_by_distance"
+        android:title="@string/order_result_title"
+        android:summary="@string/order_result_summary"
+        android:defaultValue="false"/>
+</PreferenceScreen>

@@ -12,7 +12,7 @@
         android:layout_height="41dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="40dp"
-        android:text="Username"
+        android:text="@string/username_label_registration"
         android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,7 +24,7 @@
         android:layout_height="41dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="48dp"
-        android:text="Position"
+        android:text="@string/position_label_registration"
         android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +36,7 @@
         android:layout_height="77dp"
         android:layout_marginStart="124dp"
         android:layout_marginBottom="72dp"
-        android:text="Button"
+        android:text="@string/registration_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -48,7 +48,6 @@
         android:layout_marginTop="40dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="username"
         app:layout_constraintStart_toEndOf="@+id/username_label"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -60,7 +59,6 @@
         android:layout_marginTop="40dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="position"
         app:layout_constraintStart_toEndOf="@+id/position_label"
         app:layout_constraintTop_toBottomOf="@+id/username_text" />
 
@@ -70,7 +68,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="63dp"
         android:layout_marginTop="49dp"
-        android:text="Password"
+        android:text="@string/password_label_registration"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/position_label" />
 
@@ -80,7 +78,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="51dp"
-        android:text="Confirm password"
+        android:text="@string/confirm_password_label_registration"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password_label" />
 
@@ -90,7 +88,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="55dp"
         android:layout_marginTop="51dp"
-        android:text="email"
+        android:text="@string/email_label_registration"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/confirm_label" />
 

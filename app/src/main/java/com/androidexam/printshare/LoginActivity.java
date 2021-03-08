@@ -5,16 +5,17 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
-import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.firebase.database.FirebaseDatabase;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
-
-public class LoginActivity extends Activity {
+public class LoginActivity extends AppCompatActivity {
 
     private SharedPreferences savedValues;
 
@@ -37,13 +38,9 @@ public class LoginActivity extends Activity {
         password_text = findViewById(R.id.password_login_text);
         login = findViewById(R.id.login_button);
 
-        login.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                new Database(FirebaseDatabase.getInstance()).logIn(email_login_text.getText().toString(),
-                                                                    password_text.getText().toString(), v.getContext());
-            }
+        login.setOnClickListener(v -> {
+            new DbCommunication().logIn(email_login_text.getText().toString(),password_text.getText().toString());
+            startActivity(new Intent(v.getContext(),ProfileActivity.class));
         });
     }
 
@@ -51,7 +48,7 @@ public class LoginActivity extends Activity {
     protected void onPause() {
         Editor editor = savedValues.edit();
         editor.putString("email", email_login_text.getText().toString());
-        editor.commit();
+        editor.apply();
 
         super.onPause();
     }
@@ -60,5 +57,26 @@ public class LoginActivity extends Activity {
     protected void onResume() {
         super.onResume();
         email_login_text.setText(savedValues.getString("email", ""));
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_home :
+                startActivity(new Intent(this,MainActivity.class));
+                return true;
+            case R.id.menu_settings:
+                startActivity(new Intent(this,SettingsActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
