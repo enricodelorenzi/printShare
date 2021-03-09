@@ -34,6 +34,10 @@
             android:name=".AddPrinterActivity"
             android:label="Add a new printer"
             android:theme="@style/Theme.AppCompat.Dialog"></activity>
+        <activity
+            android:name=".ModifyProfileActivity"
+            android:label="Modify"
+            android:theme="@style/Theme.AppCompat.Dialog"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

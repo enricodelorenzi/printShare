@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.CalendarContract;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -82,6 +85,11 @@ public class RegisterActivity extends AppCompatActivity{
                 String[] patterns = {".*[\\d].*", ".*[A-Z].*", ".*[a-z].*"};
                 boolean length = s.length() >= 6;
                 checked[2] = Stream.of(patterns).map(m -> Pattern.compile(m).matcher(s).matches()).reduce((p1, p2) -> p1 && p2).get() && length;
+                if(checked[2]){
+                    password_label.setTextColor(Color.parseColor("#00ff00"));
+                } else {
+                    password_label.setTextColor(Color.parseColor("#ff0000"));
+                }
             }
         });
 
@@ -93,6 +101,11 @@ public class RegisterActivity extends AppCompatActivity{
                     Pattern email_pattern = Pattern.compile("^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$");
                     Matcher m = email_pattern.matcher(cleaned_email);
                     checked[1] = m.matches();
+                    if(checked[1]){
+                        email_label.setTextColor(Color.parseColor("#00ff00"));
+                    } else {
+                        email_label.setTextColor(Color.parseColor("#ff0000"));
+                    }
                 }
             }
         });
@@ -109,6 +122,11 @@ public class RegisterActivity extends AppCompatActivity{
                     boolean check = result.length() == 0;
                     handler.post(()->{
                         checked[0] = check;
+                        if(checked[0]){
+                            username_label.setTextColor(Color.parseColor("#00ff00"));
+                        } else {
+                            username_label.setTextColor(Color.parseColor("#ff0000"));
+                        }
                         register.setActivated(true);
                     });
                 });

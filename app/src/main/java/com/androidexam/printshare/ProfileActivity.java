@@ -57,6 +57,10 @@ public class ProfileActivity extends AppCompatActivity {
             startActivity(new Intent(this, AddPrinterActivity.class));
         });
 
+        profile_modify_button.setOnClickListener((v)->{
+            startActivity((new Intent(this,ModifyProfileActivity.class)));
+        });
+
     }
 
     @Override

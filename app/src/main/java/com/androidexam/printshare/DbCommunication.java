@@ -26,7 +26,7 @@ public class DbCommunication extends ConnectionTemplate{
     private static final String LOG_TAG = DbCommunication.class.getSimpleName();
     private static final String FIREBASE_DB_ROOT_URL = "https://printshare-77932-default-rtdb.firebaseio.com/";
 
-    public enum OPERATIONS  {PATCH, POST, READ, READ_POSITION, READ_PRINTER, READ_TEMP, READ_USERNAME, REGISTRATION, NULL}
+    public enum OPERATIONS  {PATCH, POST, PUT, READ, READ_POSITION, READ_PRINTER, READ_TEMP, READ_USERNAME, REGISTRATION, NULL}
     private WeakReference<View> mLabel;
     private OPERATIONS operation;
     private int temp;
@@ -187,6 +187,7 @@ public class DbCommunication extends ConnectionTemplate{
                 break;
             case PATCH:
             case POST:
+            case PUT:
                 break;
             default:
                 try {

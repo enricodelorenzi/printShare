@@ -18,7 +18,7 @@ import java.util.stream.Collector;
 
 public abstract class ConnectionTemplate {
 
-    public enum OPERATIONS  {POST, PATCH}
+    public enum OPERATIONS  {POST, PATCH, PUT}
 
     public final JSONObject template(String operation, String path, String data, List<String> queries){
         JSONObject response = null;
@@ -34,7 +34,8 @@ public abstract class ConnectionTemplate {
     abstract void update(String output);
 
     private boolean writeOperation(String operation){
-        return operation.equals(OPERATIONS.POST.toString()) || operation.equals(OPERATIONS.PATCH.toString());
+        return operation.equals(OPERATIONS.POST.toString()) || operation.equals(OPERATIONS.PATCH.toString())
+                || operation.equals(OPERATIONS.PUT.toString());
     }
     private HttpURLConnection createURL(String operation, String path, List<String> queries) {
         HttpURLConnection urlConnection = null;
