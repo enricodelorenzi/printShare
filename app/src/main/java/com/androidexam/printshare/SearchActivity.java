@@ -51,10 +51,8 @@ public class SearchActivity extends AppCompatActivity{
         search_place_label = findViewById(R.id.search_place_label);
         search_printer_label = findViewById(R.id.search_printer_label);
         search_temp_label = findViewById(R.id.search_temp);
-        search_user_label = findViewById(R.id.search_user_label);
         search_temp_input = findViewById(R.id.search_temp_edit);
         search_printer_input = findViewById(R.id.search_printer_input);
-        search_user_input = findViewById(R.id.search_user_input);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -82,8 +80,7 @@ public class SearchActivity extends AppCompatActivity{
             if(networkInfo != null && networkInfo.isConnected()) {
                 //TODO eleborare la richiesta.
 
-                new DbCommunication(DbCommunication.OPERATIONS.READ_TEMP, result_view).launchAsyncTask("READ","temp_range",null,
-                                                                                "orderBy=\"min\"","endAt=220");
+                new DbCommunication(null, result_view).launchAsyncTask("READ","materials/material_1",null);
 
                 //startActivity(new Intent(this,SearchedProfileActivity.class)
                 //                    .putExtra("SEARCHED_USER",search_user_input.getText().toString()));
@@ -101,8 +98,8 @@ public class SearchActivity extends AppCompatActivity{
         orderResults = prefs.getBoolean("pref_order_result_by_distance",false);
         boolean wasVisible = origin.getVisibility() == View.VISIBLE;
         if(!orderResults && wasVisible) {
-            origin.setVisibility(View.INVISIBLE);
-            search_place_label.setVisibility(View.INVISIBLE);
+            origin.setVisibility(View.GONE);
+            search_place_label.setVisibility(View.GONE);
         } else if(orderResults && !wasVisible){
             origin.setVisibility(View.VISIBLE);
             search_place_label.setVisibility(View.VISIBLE);

@@ -12,17 +12,28 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.StringJoiner;
 import java.util.stream.Collector;
 
 public abstract class ConnectionTemplate {
 
-    public enum OPERATIONS  {POST, PATCH, PUT}
+    public enum OPERATIONS  {POST, PATCH, PUT, SEARCH_READ}
 
     public final JSONObject template(String operation, String path, String data, List<String> queries){
         JSONObject response = null;
-        HttpURLConnection urlConnection = createURL(operation, path, queries);
+        HttpURLConnection urlConnection = null;
+        if(operation.equals(OPERATIONS.SEARCH_READ.toString())){
+            if(data != null)
+                urlConnection = createURL("GET", path,
+                        firstLimitRead());
+            else
+                urlConnection = createURL("GET", path,
+                        limitRead(data));
+        } else
+            urlConnection = createURL(operation, path, queries);
         if(connect(urlConnection)) {
             response = execute(urlConnection, data);
         }
@@ -64,6 +75,7 @@ public abstract class ConnectionTemplate {
                 urlConnection.setRequestProperty("Content-Type", "application/json; utf-8");
                 urlConnection.setDoOutput(true);
             } else {
+                //TODO passare l'operazione di richiesta nel metodo template.
                 urlConnection.setRequestMethod("GET");
             }
         } catch (IOException e) {
@@ -139,5 +151,18 @@ public abstract class ConnectionTemplate {
             urlConnection.disconnect();
         }
         return object;
+    }
+
+    public List<String> firstLimitRead(){
+        ArrayList<String> queries = new ArrayList<>();
+        Collections.addAll(queries,"orderBy=\"$key\"","limitToFirst=20");
+        return queries;
+    }
+
+    public List<String> limitRead(String start_key){
+        ArrayList<String> queries = new ArrayList<>();
+        Collections.addAll(queries,"orderBy=\"$key\"","startAt=\""+start_key+"\"",
+                "limitToFirst=10");
+        return queries;
     }
 }

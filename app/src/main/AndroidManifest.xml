@@ -28,9 +28,6 @@
         android:name=".SearchActivity"
         android:label="Search Activity"></activity>
         <activity
-            android:name=".SearchedProfileActivity"
-            android:label="Profile"></activity>
-        <activity
             android:name=".AddPrinterActivity"
             android:label="Add a new printer"
             android:theme="@style/Theme.AppCompat.Dialog"></activity>

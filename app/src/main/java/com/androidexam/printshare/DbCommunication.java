@@ -26,7 +26,7 @@ public class DbCommunication extends ConnectionTemplate{
     private static final String LOG_TAG = DbCommunication.class.getSimpleName();
     private static final String FIREBASE_DB_ROOT_URL = "https://printshare-77932-default-rtdb.firebaseio.com/";
 
-    public enum OPERATIONS  {PATCH, POST, PUT, READ, READ_POSITION, READ_PRINTER, READ_TEMP, READ_USERNAME, REGISTRATION, NULL}
+    public enum OPERATIONS  {PATCH, POST, PUT, READ, READ_PRINTER, READ_TEMP}
     private WeakReference<View> mLabel;
     private OPERATIONS operation;
     private int temp;
@@ -88,22 +88,6 @@ public class DbCommunication extends ConnectionTemplate{
         return result.toString();
     }
 
-    private String JSONToString(JSONObject obj){
-        if(obj != null) {
-            StringBuilder s = new StringBuilder();
-            obj.keys().forEachRemaining(cur_key -> {
-                try {
-                    s.append(obj.getString(cur_key)).append("\n");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            });
-            return s.toString();
-        }
-        return null;
-    }
-
-    //TODO adapt to new ConnectionTemplate
     public void newUserRegistration(String email, String password, String username, String place_name){
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
@@ -115,6 +99,7 @@ public class DbCommunication extends ConnectionTemplate{
                         "\"position\":\""+place_name+"\"," +
                         "\"username\":\""+username+"\"}");
                 launchAsyncTask("PATCH","user_pos","{\""+uid+"\":\""+place_name+"\"}");
+                launchAsyncTask("PATCH","user_uid","{\""+username+"\":\""+uid+"\"}");
             } else {
                 if(task.getException() instanceof FirebaseAuthWeakPasswordException) {
                     Log.e(LOG_TAG, "Password non soddisfacente i criteri.");
@@ -146,7 +131,10 @@ public class DbCommunication extends ConnectionTemplate{
             if(output != null)
                 ((TextView) mLabel.get()).setText(output);
             else
+                if(operation != null)
                ((TextView) mLabel.get()).setText("Something wrong..."+operation.toString());
+                else
+                    ((TextView) mLabel.get()).setText("Something wrong...");
         }
         else if (mLabel.get() instanceof ImageView){
             byte[] decodedString = Base64.decode(output, Base64.DEFAULT);
@@ -158,43 +146,32 @@ public class DbCommunication extends ConnectionTemplate{
     @Override
     String post_exec(JSONObject response) {
         String output = null;
-        switch (operation){
-            case READ_TEMP:
-                output = retrieveUserByTemp(temp, response);
-                break;
-            case READ_POSITION:
-                try {
-                    output =  response.getJSONObject(response.keys().next()).getJSONObject("metadata").getString("position");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case READ_USERNAME:
-                try {
-                    output =  response.getJSONObject(response.keys().next()).getJSONObject("metadata").getString("username");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case READ_PRINTER:
-                StringBuilder s = new StringBuilder();
-                try {
-                    response.getJSONObject(response.keys().next()).keys().forEachRemaining(cur_key -> s.append(cur_key).append("\n"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                output = s.toString();
-                break;
-            case PATCH:
-            case POST:
-            case PUT:
-                break;
-            default:
-                try {
-                    output = response.getString("readed");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+        if(operation != null) {
+            switch (operation) {
+                case READ_TEMP:
+                    output = retrieveUserByTemp(temp, response);
+                    break;
+                case READ_PRINTER:
+                    StringBuilder s = new StringBuilder();
+                    try {
+                        response.getJSONObject(response.keys().next()).keys().forEachRemaining(cur_key -> s.append(cur_key).append("\n"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    output = s.toString();
+                    break;
+                case PATCH:
+                case POST:
+                case PUT:
+                    break;
+                case READ:
+                default:
+                    try {
+                        output = response.getString("readed");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+            }
         }
         return output;
     }

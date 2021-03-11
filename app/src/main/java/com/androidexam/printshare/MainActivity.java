@@ -1,7 +1,6 @@
 package com.androidexam.printshare;
 
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -13,29 +12,24 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener {
+
+    private static final String FIREBASE_DB_ROOT_URL = "https://printshare-77932-default-rtdb.firebaseio.com/";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                     startActivity(intent);
                 }break;
                 case "test":{
-                    test_1();
+                    anonymousProfileView();
                 }break;
                 default:
                     throw new IllegalStateException("Unexpected value: ");
@@ -82,98 +76,15 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         }
     }
 
-    private void test_1(){
-        Handler handler = new Handler();
-        Executors.newFixedThreadPool(1).execute(()->{
-            HttpURLConnection urlConnection = null;
-            try {
-                urlConnection = (HttpURLConnection) new URL("https://printshare-77932-default-rtdb.firebaseio.com/user_pos.json").openConnection();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                if (urlConnection != null) {
-                    urlConnection.setRequestMethod("PATCH");
-                }
-            } catch (ProtocolException e) {
-                e.printStackTrace();
-            }
-            if (urlConnection != null) {
-                urlConnection.setRequestProperty("Accept", "application/json");
-                urlConnection.setRequestProperty("Content-Type", "application/json; utf-8");
-                urlConnection.setDoOutput(true);
-            }
-
-            try {
-                urlConnection.connect();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            String data = "{\"USERNAME\":\"LOCATION\"}";
-
-            OutputStream outputStream = null;
-            try {
-                outputStream = urlConnection.getOutputStream();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            byte[] input = data.getBytes(StandardCharsets.UTF_8);
-            try {
-                outputStream.write(input, 0, input.length);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                InputStream in = urlConnection.getInputStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    Log.d("READED", line);
-                }
-            } catch (IOException e){
-                e.printStackTrace();
-            }
-        });
-        //new DbCommunication().launchAsyncTask("PATCH","user_pos", "{\"USERNAME\":\"PLACE\"}");
+    public void anonymousProfileView(){
+        FirebaseAuth.getInstance().signInAnonymously();
+        startActivity(new Intent(this,ProfileActivity.class).putExtra("USERNAME","user_1"));
     }
 
-    private void test(){
-        Handler handler = new Handler();
-        Executors.newSingleThreadExecutor().execute(()-> {
-            BufferedReader reader = null;
-            InputStream input = null;
-            StringBuilder builder = new StringBuilder();
-            try {
-                HttpURLConnection urlConnection = (HttpURLConnection) new URL("https://printshare-77932-default-rtdb.firebaseio.com/users.json?" +
-                        "orderBy=\"metadata/username\"&equalTo=\"NEWREGISTRATION\"").openConnection();
-                urlConnection.connect();
-                input = urlConnection.getInputStream();
-                reader = new BufferedReader(new InputStreamReader(input));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    builder.append(line);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    if (reader != null)
-                        reader.close();
-                    if (input != null)
-                        input.close();
-                } catch(IOException e){
-                    e.printStackTrace();
-                }
-            }
-            handler.post(() -> {
-                builder.toString();
-            });
-        });
-    }
-
-    public void parseGcode(String file_path){
+    public void parseGcode(){
         try {
-            InputStream in = this.getAssets().open("cube_2.gcode");
+            InputStream in = this.getAssets().open("cube.gcode");
+
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
             String s;
             while((s = reader.readLine()) != null){
@@ -187,6 +98,61 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         }
     }
 
+    public void test(){
+        DbCommunication db = new DbCommunication();
+        for(int i = 1; i < 201; i++) {
+            /*String user_data = "{" +
+                    "\"metadata\":{" +
+                    "\"username\":\"user_" + i + "\"" +
+                    "}" +
+                    "}";
+            db.launchAsyncTask("POST","users",user_data);
+            */
+            String material = "{" +
+                    "\"user_" + i + "\":\"true\"" +
+                    "}";
+            if(i%2==0){
+                db.launchAsyncTask("PATCH","materials/material_2",material);
+            } else {
+                db.launchAsyncTask("PATCH","materials/material_1",material);
+            }
+        }
+    }
+    
+    public void limitRead(){
+        Executor executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler();
+        ArrayList<String> queries_1 = new  ArrayList<>();
+        queries_1.add("orderBy=\"$key\"");
+        queries_1.add("limitToFirst=20");
+        
+        executor.execute(()->{
+            JSONObject obj;
+            String next_startAt_value = null;
+            int i = 0;
+            do {
+                if(i == 0) {
+                    obj = new DbCommunication(DbCommunication.OPERATIONS.READ).template("GET",
+                            FIREBASE_DB_ROOT_URL+"materials/material_1", null,
+                            queries_1);
+                }else {
+                    ArrayList<String> queries_2 = new  ArrayList<>();
+                    queries_2.add("orderBy=\"$key\"");
+                    queries_2.add("startAt=\""+ next_startAt_value +"\"");
+                    queries_2.add("limitToFirst=10");
+                    obj = new DbCommunication(DbCommunication.OPERATIONS.READ).template("GET",
+                            FIREBASE_DB_ROOT_URL+"materials/material_1", null,
+                            queries_2);
+                }
+                Iterator<String> keys = obj.keys();
+                while (keys.hasNext()) {
+                    next_startAt_value = keys.next();
+                }
+                i++;
+            } while(i < 10);
+        });
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
