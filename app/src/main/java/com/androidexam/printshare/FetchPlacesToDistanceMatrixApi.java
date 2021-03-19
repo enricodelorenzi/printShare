@@ -42,12 +42,13 @@ public class FetchPlacesToDistanceMatrixApi extends  ConnectionTemplate{
     public void launchAsyncTask(){
 
         Executors.newFixedThreadPool(1).execute(()->{
-            destinations = produceInput(template("READ", FIREBASE_DB_ROOT_URL+"user_pos",null,null));
+            destinations = produceInput(template("GET", FIREBASE_DB_ROOT_URL+"user_pos",null,null));
             List<String> queries = new ArrayList<>();
             Collections.addAll(queries, ORIGIN + "=" + mInputText.get().getText().toString(),
                                             DESTINATION+"="+destinations,
                                             API_KEY+"="+apiKey);
-            JSONObject response = template(null,GOOGLE_DISTANCEMATRIX_API_BASE_URL,null, queries);
+            //operation was null
+            JSONObject response = template("GET",GOOGLE_DISTANCEMATRIX_API_BASE_URL,null, queries);
             handler.post(()->{
                 String output = post_exec(response);
                 update(output);
@@ -114,6 +115,10 @@ public class FetchPlacesToDistanceMatrixApi extends  ConnectionTemplate{
 
         //build query paeram destinations
         return map.values().stream().collect(place_collector);
+    }
 
+    @Override
+    boolean isLimitedRead() {
+        return false;
     }
 }

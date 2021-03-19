@@ -1,115 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <EditText
-        android:id="@+id/origin_editable_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="184dp"
-        android:layout_marginTop="40dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="@string/origin_placeholder"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/send_request_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="292dp"
-        android:text="@string/send_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/origin_editable_text" />
-
-    <TextView
-        android:id="@+id/results_textview"
-        android:layout_width="284dp"
-        android:layout_height="160dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="100dp"
-        android:text="@string/result_textview"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/send_request_button" />
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
 
     <TextView
         android:id="@+id/search_place_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="41dp"
-        android:layout_marginTop="66dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="32dp"
+        android:layout_span="1"
         android:text="@string/place"
+        android:labelFor="@+id/origin_editable_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/origin_editable_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="40dp"
+        android:layout_span="2"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="@string/origin_placeholder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:autofillHints="" />
+
+    <Button
+        android:id="@+id/send_request_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="156dp"
+        android:layout_marginTop="41dp"
+        android:text="@string/send_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_width_input" />
+
+
+    <TextView
+        android:id="@+id/results_textview"
+        android:layout_width="270dp"
+        android:layout_height="101dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="36dp"
+        android:text="@string/result_textview"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/send_request_button" />
 
     <TextView
         android:id="@+id/search_printer_label"
         android:layout_width="49dp"
         android:layout_height="29dp"
-        android:layout_marginStart="41dp"
-        android:layout_marginTop="51dp"
+        android:layout_marginStart="176dp"
+        android:layout_marginTop="19dp"
         android:text="@string/printer_label"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_place_label" />
+        app:layout_constraintTop_toBottomOf="@+id/origin_editable_text" />
 
-    <EditText
-        android:id="@+id/search_printer_input"
+    <CheckBox
+        android:id="@+id/search_check_material_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="93dp"
-        android:layout_marginTop="35dp"
-        android:ems="10"
-        android:inputType="textPersonName"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="40dp"
+        android:text="material_1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_printer_model_spinner" />
+
+    <CheckBox
+        android:id="@+id/search_check_material_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="40dp"
+        android:text="material_2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_printer_model_spinner" />
+
+    <Spinner
+        android:id="@+id/search_printer_model_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="88dp"
         app:layout_constraintStart_toEndOf="@+id/search_printer_label"
         app:layout_constraintTop_toBottomOf="@+id/origin_editable_text" />
 
     <TextView
-        android:id="@+id/search_temp"
+        android:id="@+id/search_height_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="41dp"
-        android:layout_marginTop="57dp"
-        android:text="Temperature"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="16dp"
+        android:text="H"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_printer_label" />
-
-    <EditText
-        android:id="@+id/search_temp_edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="58dp"
-        android:layout_marginTop="32dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="220"
-        app:layout_constraintStart_toEndOf="@+id/search_temp"
-        app:layout_constraintTop_toBottomOf="@+id/search_printer_input" />
+        app:layout_constraintTop_toBottomOf="@+id/search_dimensions_label" />
 
     <TextView
-        android:id="@+id/search_user_label"
+        android:id="@+id/search_length_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="43dp"
-        android:layout_marginTop="39dp"
-        android:text="TextView"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="44dp"
+        android:text="L"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_temp"
-        tools:text="User" />
+        app:layout_constraintTop_toBottomOf="@+id/search_height_label" />
+
+    <TextView
+        android:id="@+id/search_width_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="32dp"
+        android:text="W"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_length_label" />
 
     <EditText
-        android:id="@+id/search_user_input"
+        android:id="@+id/search_height_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="40dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintStart_toEndOf="@+id/search_user_label"
-        app:layout_constraintTop_toBottomOf="@+id/search_temp_edit" />
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_dimensions_label" />
+
+    <EditText
+        android:id="@+id/search_length_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="40dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_height_input" />
+
+    <EditText
+        android:id="@+id/search_width_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="40dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_length_input" />
+
+    <TextView
+        android:id="@+id/search_dimensions_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="176dp"
+        android:layout_marginTop="6dp"
+        android:text="Dimensions"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_check_material_2" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -1,7 +1,5 @@
 package com.androidexam.printshare;
 
-import android.util.Log;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -13,25 +11,19 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.StringJoiner;
 import java.util.stream.Collector;
 
 public abstract class ConnectionTemplate {
 
-    public enum OPERATIONS  {POST, PATCH, PUT, SEARCH_READ}
+    public enum OPERATIONS  {POST, PATCH, PUT}
 
     public final JSONObject template(String operation, String path, String data, List<String> queries){
         JSONObject response = null;
         HttpURLConnection urlConnection = null;
-        if(operation.equals(OPERATIONS.SEARCH_READ.toString())){
-            if(data != null)
-                urlConnection = createURL("GET", path,
-                        firstLimitRead());
-            else
-                urlConnection = createURL("GET", path,
-                        limitRead(data));
+        if(isLimitedRead()){
+            urlConnection = createURL("GET", path, limitRead(data));
         } else
             urlConnection = createURL(operation, path, queries);
         if(connect(urlConnection)) {
@@ -40,6 +32,7 @@ public abstract class ConnectionTemplate {
         return response;
     }
 
+    abstract boolean isLimitedRead();
     abstract String post_exec(JSONObject response);
     abstract boolean showResult();
     abstract void update(String output);
@@ -70,14 +63,12 @@ public abstract class ConnectionTemplate {
             urlConnection = (HttpURLConnection) new URL(builder.toString()).openConnection();
 
             if(isWrite){
-                urlConnection.setRequestMethod(operation);
                 urlConnection.setRequestProperty("Accept", "application/json");
                 urlConnection.setRequestProperty("Content-Type", "application/json; utf-8");
                 urlConnection.setDoOutput(true);
-            } else {
-                //TODO passare l'operazione di richiesta nel metodo template.
-                urlConnection.setRequestMethod("GET");
             }
+            urlConnection.setRequestMethod(operation);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -118,23 +109,15 @@ public abstract class ConnectionTemplate {
             }
 
             try {
-                object = new JSONObject(builder.toString());
-            } catch (JSONException e) {
-                try {
-                    object = new JSONObject("{\"readed\":"+builder.toString()+"}");
-                } catch (JSONException jsonException) {
-                    jsonException.printStackTrace();
+                if(builder.toString().startsWith("{")) {
+                    object = new JSONObject(builder.toString());
                 }
-            }
-            String status = object != null && object.length() != 0 ? "OK" : "ERROR";
-            /*try {
-                if (object != null) {
-                    object.accumulate("status", status);
+                else {
+                    object = new JSONObject("{\"readed\":"+builder.toString()+"}");
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-            }*/
-
+            }
         } catch (IOException e){
             e.printStackTrace();
         } finally {
@@ -152,17 +135,15 @@ public abstract class ConnectionTemplate {
         }
         return object;
     }
-
-    public List<String> firstLimitRead(){
+    private List<String> limitRead(String start_key){
         ArrayList<String> queries = new ArrayList<>();
-        Collections.addAll(queries,"orderBy=\"$key\"","limitToFirst=20");
-        return queries;
-    }
-
-    public List<String> limitRead(String start_key){
-        ArrayList<String> queries = new ArrayList<>();
-        Collections.addAll(queries,"orderBy=\"$key\"","startAt=\""+start_key+"\"",
-                "limitToFirst=10");
+        queries.add("orderBy=\"$key\"");
+        if(start_key != null){
+            queries.add("startAt=\""+start_key+"\"");
+            queries.add("limitToFirst=10");
+        } else {
+            queries.add("limitToFirst=20");
+        }
         return queries;
     }
 }

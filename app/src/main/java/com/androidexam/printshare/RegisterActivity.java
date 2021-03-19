@@ -17,6 +17,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import org.json.JSONException;
@@ -35,7 +37,7 @@ import java.util.stream.Stream;
 
 public class RegisterActivity extends AppCompatActivity{
 
-    private static String apiKey = "AIzaSyAAOOVTL6XHetI4hpeIAzYuSU3B_JVPajw";
+    //private static String apiKey = "AIzaSyAAOOVTL6XHetI4hpeIAzYuSU3B_JVPajw";
     private static final String FIREBASE_DB_ROOT_URL = "https://printshare-77932-default-rtdb.firebaseio.com/";
 
     private SharedPreferences savedValues;
@@ -59,10 +61,8 @@ public class RegisterActivity extends AppCompatActivity{
         Button register = findViewById(R.id.register);
         TextView email_label = findViewById(R.id.email_label);
         TextView password_label = findViewById(R.id.password_label);
-        TextView confirm_label = findViewById(R.id.confirm_label);
         email_text =  findViewById(R.id.email_text);
         password_text =  findViewById(R.id.password_text);
-        EditText confirm_password_text = findViewById(R.id.confirm_password_text);
 
         register.setOnClickListener(v -> {
 
@@ -72,10 +72,12 @@ public class RegisterActivity extends AppCompatActivity{
                 String place_name = position_text.getText().toString();
 
                 if(checkValues(email,password,username)) {
-                    placeValidation(place_name);
+                    new DbCommunication(DbCommunication.OPERATIONS.PATCH).newUserRegistration(email, password, username, place_name);
 
                     startActivity(new Intent(this, ProfileActivity.class).putExtra("USERNAME", username)
                             .putExtra("POSITION", place_name));
+                } else {
+                    Toast.makeText(this ,"All field should be filled.",Toast.LENGTH_LONG).show();
                 }
         });
 
@@ -89,11 +91,11 @@ public class RegisterActivity extends AppCompatActivity{
                     password_label.setTextColor(Color.parseColor("#00ff00"));
                 } else {
                     password_label.setTextColor(Color.parseColor("#ff0000"));
+                    password_text.setText("");
+                    password_text.setHint("At least: 1 Uppercase, 1 lowercase, 1 number");
                 }
             }
         });
-
-
         email_text.setOnFocusChangeListener((v, hasFocus) -> {
             if(!hasFocus){
                 if(!email_text.hasFocus()) {
@@ -118,7 +120,7 @@ public class RegisterActivity extends AppCompatActivity{
                 Executors.newSingleThreadExecutor().execute(()->{
                     //TODO verificare se impedisce il click.
                     register.setActivated(false);
-                    JSONObject result = new DbCommunication().template("READ",FIREBASE_DB_ROOT_URL+"users",null, queries);
+                    JSONObject result = new DbCommunication().template("GET",FIREBASE_DB_ROOT_URL+"users",null, queries);
                     boolean check = result.length() == 0;
                     handler.post(()->{
                         checked[0] = check;
@@ -126,6 +128,8 @@ public class RegisterActivity extends AppCompatActivity{
                             username_label.setTextColor(Color.parseColor("#00ff00"));
                         } else {
                             username_label.setTextColor(Color.parseColor("#ff0000"));
+                            username_text.setText("");
+                            username_text.setHint("username already in use.");
                         }
                         register.setActivated(true);
                     });
@@ -153,36 +157,6 @@ public class RegisterActivity extends AppCompatActivity{
         username_text.setText(savedValues.getString("username", ""));
         email_text.setText(savedValues.getString("email", ""));
         position_text.setText(savedValues.getString("position", ""));
-    }
-
-    //TODO remove NetworkUtils
-    private void placeValidation(final String place){
-        Executor executor = Executors.newSingleThreadExecutor();
-        Handler handler = new Handler();
-        executor.execute(()->{
-            String result = NetworkUtils.findPlace(place);
-            handler.post(()->{
-               if(result != null) {
-                   try {
-                       writeNewUser(new JSONObject(result));
-                   } catch (JSONException e) {
-                       e.printStackTrace();
-                   }
-               }
-            });
-        });
-    }
-
-    private void writeNewUser(JSONObject place){
-        try {
-            if(place.getString("status").equals("OK")) {
-                JSONObject candidate = place.getJSONArray("candidates").getJSONObject(0);
-                new DbCommunication(DbCommunication.OPERATIONS.PATCH).newUserRegistration(email_text.getText().toString(), password_text.getText().toString(),
-                        username_text.getText().toString(),candidate.getString("name"));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     private boolean checkValues(String email, String password, String username){

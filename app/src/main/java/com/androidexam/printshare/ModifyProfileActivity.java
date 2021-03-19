@@ -43,12 +43,14 @@ public class ModifyProfileActivity extends AppCompatActivity {
                     "{\"position\":\""+new_position+"\"}");
             new DbCommunication(DbCommunication.OPERATIONS.PATCH).launchAsyncTask("PATCH", "user_pos",
                     "{\""+FirebaseAuth.getInstance().getUid()+"\":\""+new_position+"\"}");
+            new DbCommunication(DbCommunication.OPERATIONS.PATCH).launchAsyncTask("PATCH", "user_uid",
+                    "{\""+FirebaseAuth.getInstance().getUid()+"\":\""+new_username+"\"}");
 
             //set new values for Profile.onResume() call
-            SharedPreferences.Editor editor = savedValues.edit();
-            editor.putString("username", new_username);
-            editor.putString("position", new_position);
-            editor.apply();
+            savedValues.edit()
+                    .putString("username", new_username)
+                    .putString("position", new_position)
+                    .apply();
             finish();
         });
 

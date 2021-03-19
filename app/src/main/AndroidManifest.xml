@@ -14,27 +14,25 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".RegisterActivity"
-            android:label="Register Activity"></activity>
+            android:label="Register Activity" />
         <activity
             android:name=".SettingsActivity"
-            android:label="Settings Activity"></activity>
+            android:label="Settings Activity" />
         <activity
             android:name=".LoginActivity"
-            android:label="Login Activity"></activity>
+            android:label="Login Activity" />
         <activity
             android:name=".ProfileActivity"
-            android:label="Profile Activity"></activity>
+            android:label="Profile Activity" />
         <activity
-        android:name=".SearchActivity"
-        android:label="Search Activity"></activity>
+            android:name=".SearchActivity"
+            android:label="Search Activity" />
         <activity
             android:name=".AddPrinterActivity"
-            android:label="Add a new printer"
-            android:theme="@style/Theme.AppCompat.Dialog"></activity>
+            android:label="Add a new printer"/>
         <activity
             android:name=".ModifyProfileActivity"
-            android:label="Modify"
-            android:theme="@style/Theme.AppCompat.Dialog"></activity>
+            android:label="Modify" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

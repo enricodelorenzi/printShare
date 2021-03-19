@@ -1,88 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/close_button"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <Spinner
-        android:id="@+id/add_printer_models_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="84dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            <Button
+                android:id="@+id/add_printer_close_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/close_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <CheckBox
-        android:id="@+id/add_printer_material_1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="65dp"
-        android:layout_marginTop="60dp"
-        android:text="Material_1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_printer_models_spinner" />
+            <TextView
+                android:id="@+id/add_printer_type_label"
+                android:text="Type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"/>
 
-    <CheckBox
-        android:id="@+id/add_printer_material_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="66dp"
-        android:layout_marginTop="60dp"
-        android:text="Material_2"
-        app:layout_constraintStart_toEndOf="@+id/add_printer_material_1"
-        app:layout_constraintTop_toBottomOf="@+id/add_printer_models_spinner" />
+            <Spinner
+                android:id="@+id/add_printer_models_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/add_printer_confirm_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="161dp"
-        android:layout_marginTop="325dp"
-        android:text="confirm"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_printer_dimension_edit" />
+            <TextView
+                android:id="@+id/add_printer_materials_label"
+                android:text="Materials"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-    <Button
-        android:id="@+id/add_printer_close_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/close_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            <FrameLayout
+                android:layout_weight="2"
+                android:id="@+id/fragment_to_replace"
+                android:layout_width="match_parent"
+                android:layout_height="0px" />
 
-    <EditText
-        android:id="@+id/add_printer_dimension_edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="39dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_printer_dimension_label" />
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/add_printer_dimension_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="171dp"
-        android:layout_marginTop="39dp"
-        android:text="Dimensioni"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_printer_material_2" />
+                <TableRow>
 
-    <TextView
-        android:id="@+id/add_printer_materials_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="174dp"
-        android:layout_marginTop="21dp"
-        android:text="Materiali"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_printer_models_spinner" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/add_printer_printer_tag_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Name" />
+
+                    <EditText
+                        android:id="@+id/add_printer_printer_tag_input"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:hint="Insert a unique id" />
+                </TableRow>
+                <TableRow android:gravity="center">
+                    <TextView
+                        android:id="@+id/add_printer_dimension_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dimensioni" />
+                </TableRow>
+                <TableRow>
+                    <TextView
+                        android:id="@+id/add_printer_height_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="H" />
+                    <EditText
+                        android:id="@+id/add_printer_height_input"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="number" />
+                </TableRow>
+
+                <TableRow>
+                    <TextView
+                        android:id="@+id/add_printer_length_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="L" />
+                    <EditText
+                        android:id="@+id/add_printer_length_input"
+                        android:layout_width="218dp"
+                        android:layout_height="42dp"
+                        android:ems="10"
+                        android:hint="inserted value is in mm"
+                        android:inputType="number" />
+                </TableRow>
+
+                <TableRow>
+                    <TextView
+                        android:id="@+id/add_printer_width_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="W" />
+
+                    <EditText
+                        android:id="@+id/add_printer_width_input"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="number" />
+                </TableRow>
+                <TableRow android:gravity="center">
+                    <Button
+                        android:id="@+id/add_printer_confirm_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="confirm" />
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>

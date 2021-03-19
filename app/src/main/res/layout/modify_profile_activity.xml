@@ -23,7 +23,7 @@
                 android:id="@+id/modify_profile_position_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/username_label_registration"
+                android:text="@string/position_label_registration"
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="20dp"/>
         </LinearLayout>
@@ -35,14 +35,14 @@
                 android:id="@+id/modify_profile_username_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="new username"
+                android:hint="new username"
                 android:layout_marginStart="40dp"
-                android:layout_marginTop="20dp"/>
+                android:layout_marginTop="20dp" />
             <EditText
                 android:id="@+id/modify_profile_position_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="new position"
+                android:hint="new position"
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="20dp"/>
         </LinearLayout>

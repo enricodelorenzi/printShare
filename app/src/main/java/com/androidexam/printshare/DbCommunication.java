@@ -22,11 +22,54 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Executors;
 
+/**
+ * <p>DbCommunication: class which purpose is to interface with Firebase Realtime Database.</p>
+ * <p><title><h1>Structure of our Db:</h1></title>
+ *  <pre>
+ *      <i>root</i>
+ *      |
+ *      +---<i>users</i>
+ *      |   |
+ *      |   +---<i>uid</i>
+ *      |       |
+ *      |       +---<i>metadata<i/>
+ *      |           |
+ *      |           +---<i>username</i>
+ *      |           |
+ *      |           +---<i>mail</i>
+ *      |           |
+ *      |           +---<i>location</i>
+ *      |           |
+ *      |           +---<i>printers</i>
+ *      |               |
+ *      |               +---<i>printer_id</i>
+ *      |                   |
+ *      |                   +---<i>materials</i>
+ *      |                   |
+ *      |                   +---<i>printer_volume</i>
+ *      |                   |
+ *      |                   +---<i>heated_bed</i>
+ *      |                   |
+ *      |                   +---<i>model</i>
+ *      |
+ *      +---<i>user_pos</i>
+ *      |
+ *      +---<i>user_model</i>
+ *      |
+ *      +---<i>user_material</i>
+ *      |
+ *      +---<i>user_printer_volume</i>
+ *      |
+ *      +---<i>user_uid</i>
+ *  </pre>
+ * </p>
+ *
+ */
 public class DbCommunication extends ConnectionTemplate{
     private static final String LOG_TAG = DbCommunication.class.getSimpleName();
     private static final String FIREBASE_DB_ROOT_URL = "https://printshare-77932-default-rtdb.firebaseio.com/";
 
-    public enum OPERATIONS  {PATCH, POST, PUT, READ, READ_PRINTER, READ_TEMP}
+    public enum OPERATIONS  {PATCH, POST, PUT, READ, READ_PRINTER}
     private WeakReference<View> mLabel;
     private OPERATIONS operation;
     private int temp;
@@ -52,10 +95,6 @@ public class DbCommunication extends ConnectionTemplate{
     public void launchAsyncTask(String operation, String path, String data,String... inputs_queries){
         List<String> queries = new ArrayList<>();
         Collections.addAll(queries, inputs_queries);
-        if(this.operation == OPERATIONS.READ_TEMP) {
-            //queries{orderBy=\"[order_key]\",[...],equalTo=[temp]
-            temp = Integer.parseInt(queries.get(queries.size() - 1).split("=")[1]);
-        }
         Executors.newFixedThreadPool(1).execute(()->{
             JSONObject response;
                 if(queries.size() == 0) {
@@ -71,23 +110,6 @@ public class DbCommunication extends ConnectionTemplate{
         });
     }
 
-    private String retrieveUserByTemp(int temp, JSONObject obj) {
-        Set<String> s = new HashSet<>();
-        StringBuilder result = new StringBuilder();
-        obj.keys().forEachRemaining(cur_key->{
-            try {
-                if (temp <= obj.getJSONObject(cur_key).getInt("max")) {
-                    obj.getJSONObject(cur_key).getJSONObject("materials").keys().forEachRemaining(material ->
-                            template("READ",FIREBASE_DB_ROOT_URL+"materials/"+material,null,null).keys().forEachRemaining(s::add));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        });
-        s.forEach(string -> result.append(string).append("\n"));
-        return result.toString();
-    }
-
     public void newUserRegistration(String email, String password, String username, String place_name){
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
@@ -99,7 +121,7 @@ public class DbCommunication extends ConnectionTemplate{
                         "\"position\":\""+place_name+"\"," +
                         "\"username\":\""+username+"\"}");
                 launchAsyncTask("PATCH","user_pos","{\""+uid+"\":\""+place_name+"\"}");
-                launchAsyncTask("PATCH","user_uid","{\""+username+"\":\""+uid+"\"}");
+                launchAsyncTask("PATCH","user_uid","{\""+uid+"\":\""+username+"\"}");
             } else {
                 if(task.getException() instanceof FirebaseAuthWeakPasswordException) {
                     Log.e(LOG_TAG, "Password non soddisfacente i criteri.");
@@ -148,9 +170,6 @@ public class DbCommunication extends ConnectionTemplate{
         String output = null;
         if(operation != null) {
             switch (operation) {
-                case READ_TEMP:
-                    output = retrieveUserByTemp(temp, response);
-                    break;
                 case READ_PRINTER:
                     StringBuilder s = new StringBuilder();
                     try {
@@ -174,5 +193,10 @@ public class DbCommunication extends ConnectionTemplate{
             }
         }
         return output;
+    }
+
+    @Override
+    boolean isLimitedRead() {
+        return false;
     }
 }

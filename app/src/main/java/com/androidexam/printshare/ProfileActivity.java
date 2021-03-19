@@ -46,7 +46,6 @@ public class ProfileActivity extends AppCompatActivity {
     private Intent intent;
     private boolean fromRegistration;
 
-    private boolean isTheOwner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,21 +89,17 @@ public class ProfileActivity extends AppCompatActivity {
             Handler handler = new Handler();
             Executors.newSingleThreadExecutor().execute(()->{
                 ArrayList<String> queries = new ArrayList<>();
-                Collections.addAll(queries,"orderBy=\"$key\"","equalTo\""+
+                Collections.addAll(queries,"orderBy=\"$value\"","equalTo\""+
                         savedValues.getString("username","")+"\"");
                 JSONObject response = new DbCommunication(DbCommunication.OPERATIONS.READ).template("GET",
                       FIREBASE_DB_ROOT_URL+"user_uid",null, queries);
                 handler.post(() -> {
-                    if(response != null){
-                        try {
-                            if(current_user.getUid().equals(response.getString(response.keys().next()))){
+                    if(!fromRegistration && response != null){
+                            if(current_user.getUid().equals(response.keys().next())){
                                 ownerView();
                             } else {
                                 defaultView();
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
                     }
                 });
             });
@@ -121,7 +116,6 @@ public class ProfileActivity extends AppCompatActivity {
         super.onPause();
     }
 
-    //ATTENZIONE: onResume() viene chiamata dopo onStart()!!!
     @Override
     protected void onResume() {
         super.onResume();
@@ -135,11 +129,10 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    //reload agisce su un thread asincrono --> termina dopo la chiamata a onResume()
     private void reload() {
-        new DbCommunication(DbCommunication.OPERATIONS.READ, profile_image).launchAsyncTask("READ","default_profile_image",null);
-        new DbCommunication(DbCommunication.OPERATIONS.READ, profile_username).launchAsyncTask("READ","users/" + mAuth.getUid() + "/metadata/username",null);
-        new DbCommunication(DbCommunication.OPERATIONS.READ, profile_position).launchAsyncTask("READ","users/" + mAuth.getUid() + "/metadata/position",null);
+        new DbCommunication(DbCommunication.OPERATIONS.READ, profile_image).launchAsyncTask("GET","default_profile_image",null);
+        new DbCommunication(DbCommunication.OPERATIONS.READ, profile_username).launchAsyncTask("GET","users/" + mAuth.getUid() + "/metadata/username",null);
+        new DbCommunication(DbCommunication.OPERATIONS.READ, profile_position).launchAsyncTask("GET","users/" + mAuth.getUid() + "/metadata/position",null);
     }
 
     private void ownerView(){
@@ -174,40 +167,3 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 }
-
-//APPUNTI
-/*FirebaseApp{name=[DEFAULT],
-        options=FirebaseOptions{
-                    applicationId=1:36229831874:android:3bdfe3e19dc0f34d74af5b,
-                    apiKey=AIzaSyDv6P-9-s_8VDm99ZrdWHHSzDzVbEkhzNk,
-                    databaseUrl=null,
-                    gcmSenderId=36229831874,
-                    storageBucket=printshare-77932.appspot.com,
-                    projectId=printshare-77932
-                  }
-       }
-     */
-
-
-/*FIREBASE LETTURA DB
-
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
-
-
-        myRef.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot s : snapshot.getChildren()){
-                    Log.i("READING DATA ", s.getKey()+", "+s.child("username").getValue());
-                    if(s.getKey().equals(mAuth.getUid()))
-                        showValues(s.child("metadata").child("username").getValue(String.class),
-                                    s.child("metadata").child("position").getValue(String.class));
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("ERROR ", error.getMessage());
-            }
-        });*/
