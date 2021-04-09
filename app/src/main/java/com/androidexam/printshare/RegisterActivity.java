@@ -14,6 +14,8 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -52,14 +54,16 @@ public class RegisterActivity extends AppCompatActivity{
 
         savedValues = getSharedPreferences("RegistrationSavedValues", MODE_PRIVATE);
 
-        TextView username_label = findViewById(R.id.username_label);
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.fade);
+
+        TextView username_label = findViewById(R.id.username_text);
         username_text =  findViewById(R.id.username_text);
-        TextView position_label = findViewById(R.id.position_label);
+        TextView position_label = findViewById(R.id.position_text);
         position_text =  findViewById(R.id.position_text);
         Button register = findViewById(R.id.register);
-        TextView email_label = findViewById(R.id.email_label);
-        TextView password_label = findViewById(R.id.password_label);
-        TextView confirm_label = findViewById(R.id.confirm_label);
+        TextView email_label = findViewById(R.id.email_text);
+        TextView password_label = findViewById(R.id.password_text);
+        TextView confirm_label = findViewById(R.id.confirm_password_text);
         email_text =  findViewById(R.id.email_text);
         password_text =  findViewById(R.id.password_text);
         EditText confirm_password_text = findViewById(R.id.confirm_password_text);
@@ -73,7 +77,7 @@ public class RegisterActivity extends AppCompatActivity{
 
                 if(checkValues(email,password,username)) {
                     placeValidation(place_name);
-
+                    v.startAnimation(animation);
                     startActivity(new Intent(this, ProfileActivity.class).putExtra("USERNAME", username)
                             .putExtra("POSITION", place_name));
                 }

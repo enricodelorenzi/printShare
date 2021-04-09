@@ -21,13 +21,18 @@
     <string name="email_label_registration">E-Mail</string>
     <string name="password_label_registration">Password</string>
     <string name="confirm_password_label_registration">Conferma password</string>
-    <string name="registration_button">Crea un nuovo account</string>
+    <string name="registration_button">Crea account</string>
+
+    <!-- Login Activity -->
+    <string name="forgot_password">Password dimenticata?</string>
 
     <!-- Main Activity -->
     <string name="home_login_button">Login</string>
     <string name="home_registration_button">Registrati</string>
     <string name="home_search_button">Cerca</string>
     <string name="home_test_button">Test</string>
+    <string name="welcome">Benvenuto</string>
+    <string name="presentation">Con PrintShare, puoi richiedere \n stampe 3d da fornitori privati, o condividere \n la tua stampante con chi ne ha bisogno! </string>
 
     <!-- Profile Activity-->
     <string name="profile_username_label">Username</string>

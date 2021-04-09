@@ -21,13 +21,18 @@
     <string name="email_label_registration">E-Mail</string>
     <string name="password_label_registration">Password</string>
     <string name="confirm_password_label_registration">Confirm password</string>
-    <string name="registration_button">Create new account</string>
+    <string name="registration_button">Create account</string>
+
+    <!-- Login Activity -->
+    <string name="forgot_password">Forgot password?</string>
 
     <!-- Main Activity -->
     <string name="home_login_button">Login</string>
     <string name="home_registration_button">Registration</string>
     <string name="home_search_button">Search</string>
     <string name="home_test_button">Test</string>
+    <string name="welcome">Welcome</string>
+    <string name="presentation">With PrintShare, you can request \n 3d prints from private dealers, or share \n your 3d printer to other customers! </string>
 
     <!-- Profile Activity-->
     <string name="profile_username_label">Username</string>

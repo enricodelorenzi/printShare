@@ -8,6 +8,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,37 +40,37 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         setContentView(R.layout.activity_main);
         Button registration = findViewById(R.id.home_registration);
         Button login = findViewById(R.id.home_login);
-        Button search = findViewById(R.id.search_button);
-        Button test = findViewById(R.id.test_button);
-
-        test.setOnClickListener(this);
-        search.setOnClickListener(this);
         registration.setOnClickListener(this);
         login.setOnClickListener(this);
+
     }
+
 
     @Override
     public void onClick(View v) {
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.fade);
         String s = null;
         if(v instanceof Button) {
             s = ((Button) v).getText().toString().toLowerCase();
         }
-        if (s != null) {
+        if ( s != null) {
             Intent intent;
-            switch (s) {
-                case "registration": {
+            switch (v.getId()) {
+                case R.id.home_registration : {
                     intent = new Intent(v.getContext(), RegisterActivity.class);
+                    v.startAnimation(animation);
                     startActivity(intent);
                 }break;
-                case "login": {
+                case R.id.home_login: {
                     intent = new Intent(v.getContext(), LoginActivity.class);
+                    v.startAnimation(animation);
                     startActivity(intent);
                 }break;
-                case "search": {
+                case R.id.search_temp: {
                     intent = new Intent(v.getContext(), SearchActivity.class);
                     startActivity(intent);
                 }break;
-                case "test":{
+                case R.id.results_textview:{
                     anonymousProfileView();
                 }break;
                 default:
@@ -75,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             }
         }
     }
+
 
     public void anonymousProfileView(){
         FirebaseAuth.getInstance().signInAnonymously();

@@ -7,6 +7,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -24,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView email_login_label;
     TextView password_label;
     Button login;
+    Button forgot_password;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,15 +35,24 @@ public class LoginActivity extends AppCompatActivity {
         savedValues = getSharedPreferences("LoginSavedValues", MODE_PRIVATE);
 
         setContentView(R.layout.login_activity);
-        email_login_label = findViewById(R.id.email_login_label);
-        password_label = findViewById(R.id.password_login_label);
+        email_login_label = findViewById(R.id.email_text);
+        password_label = findViewById(R.id.password_text);
         email_login_text = findViewById(R.id.email_login);
         password_text = findViewById(R.id.password_login_text);
         login = findViewById(R.id.login_button);
+        forgot_password = findViewById((R.id.forgot_password));
+
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.fade);
 
         login.setOnClickListener(v -> {
             new DbCommunication().logIn(email_login_text.getText().toString(),password_text.getText().toString());
+            v.startAnimation(animation);
             startActivity(new Intent(v.getContext(),ProfileActivity.class));
+        });
+
+        forgot_password.setOnClickListener(v -> {
+            v.startAnimation(animation);
+            startActivity(new Intent(v.getContext(),RegisterActivity.class));
         });
     }
 

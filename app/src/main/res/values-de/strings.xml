@@ -24,11 +24,17 @@
     <string name="confirm_password_label_registration">Passwort wiederholen</string>
     <string name="registration_button">Machst neues Account</string>
 
+    <!-- Login Activity -->
+    <string name="forgot_password">COMPLETARE</string>
+
     <!-- Main Activity -->
     <string name="home_login_button">Login</string>
     <string name="home_registration_button">Registrierung</string>
     <string name="home_search_button">Suchen</string>
     <string name="home_test_button">Test</string>
+    <string name="welcome">Willkommen</string>
+    <string name="presentation">COMPLETARE </string>
+
 
     <!-- Profile Activity-->
     <string name="profile_username_label">Username</string>

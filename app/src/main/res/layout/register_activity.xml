@@ -4,125 +4,107 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterActivity">
-
-    <TextView
-        android:id="@+id/username_label"
-        android:layout_width="164dp"
-        android:layout_height="41dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="40dp"
-        android:text="@string/username_label_registration"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/position_label"
-        android:layout_width="164dp"
-        android:layout_height="41dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="48dp"
-        android:text="@string/position_label_registration"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username_label" />
+    tools:context=".RegisterActivity"
+    android:background="@drawable/gradient_background"
+    android:elevation="1dp">
 
     <Button
         android:id="@+id/register"
-        android:layout_width="160dp"
-        android:layout_height="77dp"
-        android:layout_marginStart="124dp"
-        android:layout_marginBottom="72dp"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:background="@drawable/custom_button"
+        android:fontFamily="@font/maven_pro"
         android:text="@string/registration_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email_text" />
 
     <EditText
         android:id="@+id/username_text"
-        android:layout_width="164dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="40dp"
-        android:ems="10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:ems="15"
+        android:hint="Username"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#80FFFFFF"
+        android:textColorLink="#FFFFFF"
+        android:backgroundTint="#ffffff"
+        android:fontFamily="@font/maven_pro"
         android:inputType="textPersonName"
-        app:layout_constraintStart_toEndOf="@+id/username_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/position_text"
-        android:layout_width="149dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="40dp"
-        android:ems="10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:ems="15"
+        android:hint="Position"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#80FFFFFF"
+        android:textColorLink="#FFFFFF"
+        android:backgroundTint="#ffffff"
+        android:fontFamily="@font/maven_pro"
         android:inputType="textPersonName"
-        app:layout_constraintStart_toEndOf="@+id/position_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/username_text" />
-
-    <TextView
-        android:id="@+id/password_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="63dp"
-        android:layout_marginTop="49dp"
-        android:text="@string/password_label_registration"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/position_label" />
-
-    <TextView
-        android:id="@+id/confirm_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="51dp"
-        android:text="@string/confirm_password_label_registration"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password_label" />
-
-    <TextView
-        android:id="@+id/email_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="55dp"
-        android:layout_marginTop="51dp"
-        android:text="@string/email_label_registration"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/confirm_label" />
 
     <EditText
         android:id="@+id/password_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="43dp"
-        android:layout_marginTop="30dp"
-        android:ems="10"
+        android:layout_marginTop="44dp"
+        android:ems="15"
+        android:hint="Password"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#80FFFFFF"
+        android:textColorLink="#FFFFFF"
+        android:backgroundTint="#ffffff"
+        android:fontFamily="@font/maven_pro"
         android:inputType="textPassword"
-        app:layout_constraintStart_toEndOf="@+id/password_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/position_text" />
 
     <EditText
         android:id="@+id/confirm_password_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="21dp"
-        android:layout_marginTop="23dp"
-        android:ems="10"
+        android:layout_marginTop="44dp"
+        android:ems="15"
+        android:hint="Confirm password"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#80FFFFFF"
+        android:textColorLink="#FFFFFF"
+        android:backgroundTint="#ffffff"
+        android:fontFamily="@font/maven_pro"
         android:inputType="textPassword"
-        app:layout_constraintStart_toEndOf="@+id/confirm_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password_text" />
 
     <EditText
         android:id="@+id/email_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="73dp"
-        android:layout_marginTop="25dp"
-        android:ems="10"
+        android:layout_marginTop="44dp"
+        android:ems="15"
+        android:hint="Email"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#80FFFFFF"
+        android:textColorLink="#FFFFFF"
+        android:backgroundTint="#ffffff"
+        android:fontFamily="@font/maven_pro"
         android:inputType="textEmailAddress"
-        app:layout_constraintStart_toEndOf="@+id/email_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/confirm_password_text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

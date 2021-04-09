@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preloaded_fonts" translatable="false">
+        <item>@font/denk_one</item>
+        <item>@font/maven_pro</item>
+        <item>@font/teko_bold</item>
+        <item>@font/teko_light</item>
+    </array>
+</resources>
