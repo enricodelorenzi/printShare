@@ -120,6 +120,9 @@ public class DbCommunication extends ConnectionTemplate{
                 });
     }
 
+
+
+
     @Override
     boolean showResult() {
         return mLabel != null;

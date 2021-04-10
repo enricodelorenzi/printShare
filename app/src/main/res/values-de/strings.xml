@@ -23,9 +23,15 @@
     <string name="password_label_registration">Passwort</string>
     <string name="confirm_password_label_registration">Passwort wiederholen</string>
     <string name="registration_button">Machst neues Account</string>
+    <string name="already_register">COMPLETARE</string>
 
     <!-- Login Activity -->
     <string name="forgot_password">COMPLETARE</string>
+
+    <!-- Password Reset Activity -->
+    <string name="new_password">COMPLETARE</string>
+    <string name="confirm_password">COMPLETARE</string>
+    <string name="done">COMPLETARE</string>
 
     <!-- Main Activity -->
     <string name="home_login_button">Login</string>

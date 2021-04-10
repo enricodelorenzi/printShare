@@ -22,9 +22,15 @@
     <string name="password_label_registration">Password</string>
     <string name="confirm_password_label_registration">Confirm password</string>
     <string name="registration_button">Create account</string>
+    <string name="already_register">Already registered?</string>
 
     <!-- Login Activity -->
     <string name="forgot_password">Forgot password?</string>
+
+    <!-- Password Reset Activity -->
+    <string name="new_password">New password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="done">Done</string>
 
     <!-- Main Activity -->
     <string name="home_login_button">Login</string>
@@ -47,5 +53,6 @@
     <!-- Settings-->
     <string name="order_result_title">Order searched results</string>
     <string name="order_result_summary">Order the output of a search by distance for retrieved users.</string>
+
 
 </resources>

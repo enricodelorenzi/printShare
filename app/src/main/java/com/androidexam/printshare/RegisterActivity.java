@@ -61,12 +61,18 @@ public class RegisterActivity extends AppCompatActivity{
         TextView position_label = findViewById(R.id.position_text);
         position_text =  findViewById(R.id.position_text);
         Button register = findViewById(R.id.register);
+        Button already_registered = findViewById((R.id.already_registered));
         TextView email_label = findViewById(R.id.email_text);
         TextView password_label = findViewById(R.id.password_text);
         TextView confirm_label = findViewById(R.id.confirm_password_text);
         email_text =  findViewById(R.id.email_text);
         password_text =  findViewById(R.id.password_text);
         EditText confirm_password_text = findViewById(R.id.confirm_password_text);
+
+        already_registered.setOnClickListener(v ->{
+            v.startAnimation(animation);
+            startActivity(new Intent(this, LoginActivity.class));
+        });
 
         register.setOnClickListener(v -> {
 

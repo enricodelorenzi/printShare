@@ -22,9 +22,17 @@
     <string name="password_label_registration">Password</string>
     <string name="confirm_password_label_registration">Conferma password</string>
     <string name="registration_button">Crea account</string>
+    <string name="already_register">Sei già registrato?</string>
+
 
     <!-- Login Activity -->
     <string name="forgot_password">Password dimenticata?</string>
+
+
+    <!-- Password Reset Activity -->
+    <string name="new_password">Nuova password</string>
+    <string name="confirm_password">Conferma password</string>
+    <string name="done">Fatto</string>
 
     <!-- Main Activity -->
     <string name="home_login_button">Login</string>
