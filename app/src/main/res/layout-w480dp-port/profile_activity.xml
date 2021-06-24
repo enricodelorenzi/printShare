@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/appBackground">
+
+    <ImageView
+        android:id="@+id/profile_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:srcCompat="@tools:sample/avatars"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"/>
+
+    <TextView
+        style="@style/label"
+        android:id="@+id/profile_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profile_image"
+        android:layout_marginTop="48dp"
+        android:text="@string/profile_username_label"
+        android:textSize="@dimen/text_dim_480dp"/>
+
+    <TextView
+        style="@style/label"
+        android:id="@+id/profile_position"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profile_username"
+        android:layout_marginTop="16dp"
+        android:text="@string/profile_position_label"
+        android:textSize="@dimen/text_dim_480dp"/>
+
+    <ViewSwitcher
+        android:id="@+id/switcher"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_below="@+id/profile_position"
+        android:layout_marginTop="16dp">
+        <include
+            layout="@layout/rv"
+            android:layout_width="match_parent"
+            android:layout_height="280dp" />
+
+        <TextView
+            style="@style/label"
+            android:id="@+id/empty_list_tv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAlignment="center"
+            android:text="@string/no_printers_label"
+            android:textSize="@dimen/text_dim_480dp"
+            android:textStyle="bold"
+            />
+    </ViewSwitcher>
+
+
+    <Button
+        style="@style/btns"
+        android:id="@+id/profile_modify_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="83dp"
+        android:text="@string/modify"
+        android:textSize="@dimen/text_dim_480dp"/>
+
+    <Button
+        style="@style/btns"
+        android:id="@+id/profile_contact_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="83dp"
+        android:text="@string/contact"
+        android:textSize="@dimen/text_dim_480dp"/>
+
+    <ImageButton
+        android:id="@+id/profile_add_printer_button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="56dp"
+        android:layout_marginBottom="50dp"
+        android:contentDescription="Add Printer"
+        android:src="@drawable/add_printer_button"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:background="@null"/>
+
+</RelativeLayout>

@@ -3,6 +3,7 @@
     <string name="title_activity_profile">ProfileActivity</string>
 
     <!-- Search Activity -->
+    <string name="search">Search</string>
     <string name="send_button">Send</string>
     <string name="origin_placeholder">Innsbruck</string>
     <string name="result_textview">Results</string>
@@ -34,6 +35,10 @@
     <string name="profile_position_label">Place</string>
     <string name="profile_add_printer_button">Add a new printer</string>
     <string name="profile_image">Profile\'s image</string>
+    <string name="no_printers_label">User has no printers yet.</string>
+    <string name="modify">Modify</string>
+    <string name="contact">Contact</string>
+
 
     <!-- Menu -->
     <string name="menu_settings">Settings</string>
@@ -42,5 +47,19 @@
     <!-- Settings-->
     <string name="order_result_title">Order searched results</string>
     <string name="order_result_summary">Order the output of a search by distance for retrieved users.</string>
+
+    <!-- AddPrinterActivity -->
+    <string name="model_label">Model</string>
+    <string name="materials_label">Materials</string>
+    <string name="printer_id_label">Name</string>
+    <string name="hint_printer_id">Insert a unique id</string>
+    <string name="dimensioni">Dimensions</string>
+    <string name="confirm">confirm</string>
+    <string name="cancel">Cancel</string>
+
+    <!-- LoginActivity -->
+    <string name="login">Login</string>
+    <string name="channel_name">printShare</string>
+    <string name="channel_description">Notification of printShare app</string>
 
 </resources>

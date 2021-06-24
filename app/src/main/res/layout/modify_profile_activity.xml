@@ -1,64 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-    <LinearLayout
-        android:layout_width="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/appBackground"
+    android:id="@+id/modify_main_layout"
+    android:focusable="true"
+    android:clickable="true">
+
+
+    <EditText
+        style="@style/label"
+        android:id="@+id/username_et"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/modify_profile_username_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/username_label_registration"
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="20dp"/>
-            <TextView
-                android:id="@+id/modify_profile_position_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/position_label_registration"
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="20dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <EditText
-                android:id="@+id/modify_profile_username_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="new username"
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="20dp" />
-            <EditText
-                android:id="@+id/modify_profile_position_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="new position"
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="20dp"/>
-        </LinearLayout>
-    </LinearLayout>
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="48dp"
+        android:text="@string/profile_username_label"
+        android:textSize="@dimen/text_dim_320dp"
+        android:ems="15"
+        android:maxLength="12"
+        android:inputType="textPersonName"/>
+
+
+    <EditText
+        style="@style/label"
+        android:inputType="textPersonName"
+        android:id="@+id/position_et"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/username_et"
+        android:layout_marginTop="16dp"
+        android:text="@string/profile_position_label"
+        android:ems="15"
+        android:textSize="@dimen/text_dim_320dp"/>
+
+    <include
+        layout="@layout/rv"
+        android:id="@+id/modify_printers_rv"
+        android:layout_below="@+id/position_et"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"/>
+
+
     <Button
+        style="@style/btns"
         android:id="@+id/modify_profile_confirm_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Confirm"
-        android:layout_marginStart="150dp"
-        android:layout_marginTop="50dp"/>
-    <Button
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/modify_printers_rv"
+        android:layout_marginTop="64dp"
+        android:text="@string/confirm"
+        android:textSize="@dimen/text_dim_320dp"/>
+
+    <ImageButton
+        android:src="@android:drawable/ic_delete"
         android:id="@+id/modify_profile_cancel_button"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentEnd="true"
+        android:background="@null"
+        android:scaleType="fitCenter" />
+
+    <Button
+        style="@style/btns"
+        android:id="@+id/delete_account_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cancel"
-        android:layout_marginStart="150dp"
-        android:layout_marginTop="50dp"/>
-</LinearLayout>
+        android:text="delete account"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/modify_profile_confirm_button"
+        android:layout_marginTop="16dp"
+        android:textSize="@dimen/text_dim_320dp"/>
+
+
+</RelativeLayout>

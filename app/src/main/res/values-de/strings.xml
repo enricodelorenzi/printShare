@@ -4,6 +4,7 @@
     <string name="title_activity_profile">Profilo</string>
 
     <!-- Search Activity -->
+    <string name="search">Suchen</string>
     <string name="send_button">Schiken</string>
     <string name="origin_placeholder">München</string>
     <string name="result_textview">Ergebnis</string>
@@ -35,6 +36,9 @@
     <string name="profile_position_label">Platz</string>
     <string name="profile_add_printer_button">Gibst einen neuen Drücker ein</string>
     <string name="profile_image">Bild</string>
+    <string name="no_printers_label">Der User hat noch keine Drücker.</string>
+    <string name="modify">Ändern</string>
+    <string name="contact">Kontaktieren</string>
 
     <!-- Menu -->
     <string name="menu_settings">Settings</string>
@@ -43,6 +47,20 @@
     <!-- Settings-->
     <string name="order_result_title">Ergebnis zu ordnen</string>
     <string name="order_result_summary">Keine Ahnung wie sagt man in Deutsch.</string>
+
+    <!-- AddPrinterActivity -->
+    <string name="model_label">Model</string>
+    <string name="materials_label">Materialen</string>
+    <string name="printer_id_label">Name</string>
+    <string name="hint_printer_id">Gibt ein einzigartige Id ein.</string>
+    <string name="dimensioni">Dimensioni</string>
+    <string name="confirm">Bestätigen</string>
+    <string name="cancel">Löschen</string>
+
+    <!-- LoginActivity -->
+    <string name="login">Anmelden</string>
+    <string name="channel_name">printShare</string>
+    <string name="channel_description">Notification of printShare app</string>
 
 
 </resources>

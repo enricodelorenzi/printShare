@@ -3,52 +3,39 @@
     <item android:top="0dp"
         android:right="0dp"
         android:left="0dp"
-        android:bottom="0dp">
+        android:bottom="0dp"
+        android:height="40dp"
+        android:width="40dp">
         <shape android:shape="oval">
             <gradient
-                android:startColor="#555555"
-                android:centerColor="#222222"
-                android:endColor="#555555"
+                android:startColor="#6e6e6e"
+                android:centerColor="#9e9e9e"
+                android:endColor="#6e6e6e"
                 android:angle="90"/>
-            <padding
-                android:left="7dp"
-                android:right="7dp"
-                android:bottom="7dp"/>
             <stroke
-                android:width="2dip"
-                android:color="#555555"/>
+                android:width="1dip"
+                android:color="#111111"/>
             <corners
                 android:radius="8dp"/>
-            <size
-                android:width="100dp"
-                android:height="100dp"/>
         </shape>
     </item>
-    <item android:top="7dp"
-        android:right="0dp"
-        android:left="0dp"
-        android:bottom="0dp">
-        <shape android:shape="line">
-            <stroke
-                android:width="10dp"
-                android:color="#ef4444"/>
+    <item android:top="17.5dp"
+        android:left="5dp"
+        android:height="5dp"
+        android:width="30dp"
+        >
+        <shape android:shape="rectangle">
+            <solid android:color="#6e6e6e"/>
+            <corners android:radius="8dp"/>
         </shape>
     </item>
-    <item android:top="7dp"
-        android:right="0dp"
-        android:left="0dp"
-        android:bottom="0dp">
-        <rotate
-            android:fromDegrees="90"
-            android:pivotX="50%"
-            android:pivotY="50%"
-            android:toDegrees="-90">
-            <shape android:shape="line">
-                <stroke
-                    android:width="10dp"
-                    android:color="#ef4444"/>
-            </shape>
-        </rotate>
+    <item android:top="5dp"
+        android:left="17.5dp"
+        android:height="30dp"
+        android:width="5dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#6e6e6e"/>
+            <corners android:radius="8dp"/>
+        </shape>
     </item>
-
 </layer-list>

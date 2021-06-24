@@ -1,55 +1,57 @@
 package com.androidexam.printshare;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.ArraySet;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.auth.FirebaseAuth;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.androidexam.printshare.utilities.SessionManager;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Stream;
+import java.nio.ByteBuffer;
+import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements OnClickListener {
+public class MainActivity extends ActivityTemplate implements OnClickListener {
+
+    private static final String CHANNEL_ID ="printShare";
+    private SessionManager sessionManager;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button registration = findViewById(R.id.home_registration);
         Button login = findViewById(R.id.home_login);
-        Button search = findViewById(R.id.home_search_button);
 
-        search.setOnClickListener(this);
+        sessionManager = new SessionManager(this);
+
         registration.setOnClickListener(this);
         login.setOnClickListener(this);
+////////////////////////////////////////////////////////////////////////
+        createNotificationChannel();
+////////////////////////////////////////////////////////////////////////
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //prima installazione: non esiste il file -> nullPointerException
+        if(Objects.nonNull(sessionManager.getUid()))
+            if(!sessionManager.getUid().equals(""))
+                startActivity(new Intent(this, ProfileActivity.class)
+                                    .putExtra("FROM","REDIRECT"));
     }
 
     @Override
@@ -64,32 +66,32 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                     intent = new Intent(v.getContext(), LoginActivity.class);
                     startActivity(intent);
                 }break;
-                case R.id.home_search_button: {
-                    intent = new Intent(v.getContext(), SearchActivity.class);
-                    startActivity(intent);
-                }break;
                 default:
                     throw new IllegalStateException("Unexpected value: ");
             }
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu,menu);
-        return true;
+    protected void onResume() {
+        showOptions[0] = false;
+        showOptions[1] = false;
+        showOptions[2] = false;
+        super.onResume();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.menu_home :
-                startActivity(new Intent(this,MainActivity.class));
-                return true;
-            case R.id.menu_settings:
-                startActivity(new Intent(this,SettingsActivity.class));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.channel_name);
+            String description = getString(R.string.channel_description);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
         }
     }
 }

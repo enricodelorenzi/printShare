@@ -1,69 +1,95 @@
 package com.androidexam.printshare;
 
-import android.content.Context;
+import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.OpenableColumns;
 import android.util.ArraySet;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
+import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.androidexam.printshare.adapters.MaterialsAdapter;
+import com.androidexam.printshare.adapters.PrinterAdapter;
+import com.androidexam.printshare.utilities.DbCommunication;
+import com.androidexam.printshare.utilities.MaterialListItem;
+import com.androidexam.printshare.utilities.PrinterListItem;
+import com.google.gson.annotations.JsonAdapter;
+
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 
-public class SearchActivity extends AppCompatActivity{
+public class SearchActivity extends ActivityTemplate{
     private static final String FIREBASE_DB_ROOT_URL = "https://printshare-77932-default-rtdb.firebaseio.com/";
+    private static final String TAG = SearchActivity.class.getName();
+    private static final int PICK_GCODE_FILE = 1;
+    private static final int LOAD_SUCCESS = 1;
 
     private static final String LOG_TAG = SearchActivity.class.getSimpleName();
-    private TextView result_view;
-    private EditText origin;
-    private TextView search_place_label;
-    private SharedPreferences prefs;
-
-    private CheckBox[] checkBoxesIds;
+    private RecyclerView result_view;
+    private RecyclerView material_recyclerView;
+    private TextView no_result_view;
     private String model;
+    private Button send;
     private int height;
     private int length;
     private int width;
     private boolean first_loop;
 
+    private EditText height_input;
+    private EditText length_input;
+    private EditText width_input;
+
+    private ArrayList<MaterialListItem> mData;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
+        showOptions[1] = false;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_activity);
+        send = findViewById(R.id.send_request_button);
 
         //to show results
-        result_view = findViewById(R.id.results_textview);
+        result_view = findViewById(R.id.results_rv).findViewById(R.id.my_recycle_view);
+        no_result_view = findViewById(R.id.no_results);
 
-        //to order by distance
-        prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        search_place_label = findViewById(R.id.search_place_label);
-        origin = findViewById(R.id.origin_editable_text);
 
         //search by model
         TextView search_printer_label = findViewById(R.id.search_printer_label);
@@ -75,27 +101,28 @@ public class SearchActivity extends AppCompatActivity{
         search_printer_input.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                model = parent.getItemAtPosition(position).toString();
+                String selected_model = parent.getItemAtPosition(position).toString();
+                model = selected_model.equals("Select model") ? null : selected_model;
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                model = null;
             }
         });
 
         //search by materials
-        CheckBox material_1 = findViewById(R.id.search_check_material_1);
-        CheckBox material_2 = findViewById(R.id.search_check_material_2);
-        checkBoxesIds = new CheckBox[]{material_1, material_2};
+        material_recyclerView = findViewById(R.id.search_materials_rv).findViewById(R.id.my_recycle_view);
+        mData = materialsInit();
+        material_recyclerView.setAdapter(new MaterialsAdapter(mData));
 
         //search by dimensions
-        TextView height_label = findViewById(R.id.search_height_label);
-        TextView length_label = findViewById(R.id.search_length_label);
-        TextView width_label = findViewById(R.id.search_width_label);
-        EditText height_input = findViewById(R.id.search_height_input);
-        EditText length_input = findViewById(R.id.search_length_input);
-        EditText width_input = findViewById(R.id.search_width_input);
+        TextView height_label = findViewById(R.id.height_label);
+        TextView length_label = findViewById(R.id.length_label);
+        TextView width_label = findViewById(R.id.width_label);
+        height_input = findViewById(R.id.height_input);
+        length_input = findViewById(R.id.length_input);
+        width_input = findViewById(R.id.width_input);
 
         height= -1;
         length = -1;
@@ -103,65 +130,67 @@ public class SearchActivity extends AppCompatActivity{
 
         height_input.setOnEditorActionListener((v, actionId, event) -> {
             if(actionId == EditorInfo.IME_ACTION_NEXT)
-                try {
-                    String input = v.getText().toString();
-                    if(!input.equals(""))
-                        height = Integer.parseInt(input);
-                    else
-                        height = 0;
-                    height_label.setTextColor(Color.rgb(0,255,0));
-                    length_input.requestFocus();
-                } catch (NumberFormatException e){
-                    height_label.setTextColor(Color.rgb(255,0,0));
-                }
+                responseToInput(v,length_input,height_label,false,true);
             return true;
         });
 
         length_input.setOnEditorActionListener((v, actionId, event) -> {
             if(actionId == EditorInfo.IME_ACTION_NEXT)
-                try {
-                    String input = v.getText().toString();
-                    if(!input.equals(""))
-                        length = Integer.parseInt(input);
-                    else
-                        length = 0;
-                    length_label.setTextColor(Color.rgb(0,255,0));
-                    width_input.requestFocus();
-                } catch (NumberFormatException e){
-                    length_label.setTextColor(Color.rgb(255,0,0));
-                }
+                responseToInput(v,width_input,length_label,false,true);
             return true;
         });
 
         width_input.setOnEditorActionListener((v, actionId, event) -> {
-            if(actionId == EditorInfo.IME_ACTION_NEXT)
-                try {
-                    String input = v.getText().toString();
-                    if(!input.equals(""))
-                        width = Integer.parseInt(input);
-                    else
-                        width = 0;
-                    width_label.setTextColor(Color.rgb(0,255,0));
-                    hideSoftKeyboard(v);
-                } catch (NumberFormatException e){
-                    width_label.setTextColor(Color.rgb(255,0,0));
-                }
+            if(actionId == EditorInfo.IME_ACTION_NEXT || actionId == EditorInfo.IME_ACTION_DONE)
+                responseToInput(v,send,width_label,true,true);
             return true;
         });
 
-        Button send = findViewById(R.id.send_request_button);
         send.setOnClickListener(v -> {
 
+            result_view.setVisibility(View.GONE);
+            no_result_view.setVisibility(View.VISIBLE);
             if(isConnected()) {
-                searchLogic(result_view);
+                no_result_view.setText("Searching...");
+                searchLogic();
             }
             else {
-                result_view.setText(R.string.no_internet_connection);
+
+                no_result_view.setText(R.string.no_internet_connection);
             }
         });
+
+        setParentLayoutOnFocusHideKeyboard(findViewById(R.id.search_main_layout));
     }
 
-    private void searchLogic(TextView result_view){
+    private void responseToInput(TextView current_view, View next_view, TextView label, boolean hideKeyboard, boolean nextFocus){
+        try {
+            int value;
+            String input = current_view.getText().toString();
+            if(!input.equals(""))
+                value = Integer.parseInt(input);
+            else
+                value = 0;
+
+            switch (label.getText().toString()){
+                case "H":height = value; break;
+                case "L":length = value; break;
+                case "W":width = value; break;
+                default: break;
+            }
+
+            label.setTextColor(Color.rgb(0,255,0));
+            if(hideKeyboard)
+                hideSoftKeyboard(current_view);
+            if(nextFocus)
+                next_view.requestFocus();
+        } catch (NumberFormatException e){
+            label.setTextColor(Color.rgb(255,0,0));
+        }
+    }
+
+    //////////////////////SEARCH/////////////////////
+    private void searchLogic(){
         ExecutorService executor;
         List<Callable<JSONObject>> tasks = new ArrayList<>();
         Callable<JSONObject> printer_model_task = searchByPrinterModel();
@@ -173,7 +202,6 @@ public class SearchActivity extends AppCompatActivity{
         //discerne tra results vuoto a inizio ricerca e result vuoto per asseza di risultati.
         first_loop = results.isEmpty();
         if(!tasks.isEmpty()) {
-            result_view.setText(R.string.loading);
             executor = Executors.newFixedThreadPool(tasks.size());
             try{
                 executor.invokeAll(tasks)
@@ -182,22 +210,15 @@ public class SearchActivity extends AppCompatActivity{
                                 if(results.isEmpty()) {
                                     if(first_loop) {
                                         first_loop = false;
-                                        future.get().keys().forEachRemaining(key -> {
-                                            if (key.contains("-"))
-                                                results.add(key.split("-")[0]);
-                                            else
+                                        future.get().keys().forEachRemaining(key ->{
+                                            if(!key.equals("readed"))
                                                 results.add(key);
                                         });
                                     }
                                 }
                                 else{
                                     ArrayList<String> tmp = new ArrayList<>();
-                                    future.get().keys().forEachRemaining(key -> {
-                                        if(key.contains("-"))
-                                            tmp.add(key.split("-")[0]);
-                                        else
-                                            tmp.add(key);
-                                    });
+                                    future.get().keys().forEachRemaining(tmp::add);
                                     results.retainAll(tmp);
                                 }
                             } catch (ExecutionException | InterruptedException e) {
@@ -213,14 +234,21 @@ public class SearchActivity extends AppCompatActivity{
                     executor.shutdownNow();
             }
         }
-        if(results.isEmpty())
-            result_view.setText("No users found.");
+        if(results.isEmpty()) {
+            result_view.setVisibility(View.GONE);
+            no_result_view.setVisibility(View.VISIBLE);
+            no_result_view.setText("No users found.");
+        }
         else{
-            StringBuilder builder = new StringBuilder();
-            results.forEach(user -> {
-                builder.append(user).append("\n");
+            ArrayList<PrinterListItem> mData = new ArrayList<>();
+            result_view.setVisibility(View.VISIBLE);
+            no_result_view.setVisibility(View.GONE);
+            Set<String> uids = uniqueUid(results);
+            uids.forEach(uid -> {
+                String username = uidToUsername(uid);
+                mData.add(new PrinterListItem(uid, username,false));
             });
-            result_view.setText(builder.toString());
+            result_view.setAdapter(new PrinterAdapter(mData, this, new ProfileActivity()));
         }
     }
 
@@ -246,20 +274,18 @@ public class SearchActivity extends AppCompatActivity{
                 if(!executor.isTerminated())
                     executor.shutdownNow();
             }
-            return preliminar_result;
-        } else {
-            return  new ArraySet<>();
         }
+        return preliminar_result;
     }
 
     private List<Callable<JSONObject>> searchByMaterials(){
         List<Callable<JSONObject>> tasks = new ArrayList<>();
-        for(CheckBox check : checkBoxesIds){
-            if (check.isChecked()){
-                String material = check.getText().toString();
-                tasks.add(createNewTask("materials/"+material));
-            }
-        }
+        mData
+                .forEach(material -> {
+                    if(material.isChecked()){
+                        tasks.add(createNewTask("materials/"+material.getMaterial()));
+                    }
+                });
         return tasks;
     }
 
@@ -274,10 +300,16 @@ public class SearchActivity extends AppCompatActivity{
         List<Callable<JSONObject>> tasks = new ArrayList<>();
         if(height > 0)
             tasks.add(createNewTask("H",height));
+        else if(!height_input.getText().toString().isEmpty())
+            tasks.add(createNewTask("H",Integer.parseInt(height_input.getText().toString())));
         if(length > 0)
             tasks.add(createNewTask("L",length));
+        else if(!length_input.getText().toString().isEmpty())
+            tasks.add(createNewTask("H",Integer.parseInt(length_input.getText().toString())));
         if(width > 0)
             tasks.add(createNewTask("W",width));
+        else if(!width_input.getText().toString().isEmpty())
+            tasks.add(createNewTask("H",Integer.parseInt(width_input.getText().toString())));
         return tasks;
     }
 
@@ -295,57 +327,52 @@ public class SearchActivity extends AppCompatActivity{
                 null, null);
     }
 
-    private void hideSoftKeyboard(View v){
-        InputMethodManager inputManager = (InputMethodManager)
-                getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        if (inputManager != null ) {
-            inputManager.hideSoftInputFromWindow(v.getWindowToken(),
-                    InputMethodManager.HIDE_NOT_ALWAYS);
-        }
+    private Set<String> uniqueUid(Set<String> uid_printer){
+        Set<String> result = new ArraySet<>();
+        uid_printer.stream()
+                .map(s-> s.split("-")[0])
+                .forEach(result::add);
+        return result;
     }
 
-    private boolean isConnected(){
-        ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo;
-        if(connManager !=null)
-            networkInfo = connManager.getActiveNetworkInfo();
-        else
-            return false;
-        return networkInfo != null && networkInfo.isConnected();
+    private String uidToUsername(String uid){
+        ExecutorService executor = Executors.newFixedThreadPool(1);
+        Callable<JSONObject> task = createNewTask("user_uid/"+uid);
+        String username = null;
+        try{
+            Future<JSONObject> future = executor.submit(task);
+                try {
+                    username = future.get().getString("readed");
+                } catch (JSONException | InterruptedException | ExecutionException e) {
+                    e.printStackTrace();
+                }
+            executor.shutdown();
+            executor.awaitTermination(5,TimeUnit.SECONDS);
+        } catch (InterruptedException e){
+            e.printStackTrace();
+        } finally {
+            if(!executor.isTerminated())
+                executor.shutdownNow();
+        }
+        return username;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 
     @Override
     protected void onStart() {
-        boolean orderResults = prefs.getBoolean("pref_order_result_by_distance", false);
-        boolean wasVisible = origin.getVisibility() == View.VISIBLE;
-        if(!orderResults && wasVisible) {
-            origin.setVisibility(View.GONE);
-            search_place_label.setVisibility(View.GONE);
-        } else if(orderResults && !wasVisible){
-            origin.setVisibility(View.VISIBLE);
-            search_place_label.setVisibility(View.VISIBLE);
-        }
         super.onStart();
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu,menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.menu_home :
-                startActivity(new Intent(this,MainActivity.class));
-                return true;
-            case R.id.menu_settings:
-                startActivity(new Intent(this,SettingsActivity.class));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+    protected void onResume() {
+        showOptions[0] = true;
+        showOptions[1] = false;
+        showOptions[3] = true;
+        super.onResume();
     }
 }

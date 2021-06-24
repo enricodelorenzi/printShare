@@ -1,44 +1,30 @@
 package com.androidexam.printshare;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.CalendarContract;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
+import com.androidexam.printshare.utilities.DbCommunication;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.BitSet;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 
-public class RegisterActivity extends AppCompatActivity{
+public class RegisterActivity extends ActivityTemplate{
 
     //private static String apiKey = "AIzaSyAAOOVTL6XHetI4hpeIAzYuSU3B_JVPajw";
-    private static final String FIREBASE_DB_ROOT_URL = "https://printshare-77932-default-rtdb.firebaseio.com/";
 
     private SharedPreferences savedValues;
     private EditText username_text;
@@ -72,12 +58,13 @@ public class RegisterActivity extends AppCompatActivity{
                 String place_name = position_text.getText().toString();
 
                 if(checkValues(email,password,username)) {
-                    new DbCommunication(DbCommunication.OPERATIONS.PATCH).newUserRegistration(email, password, username, place_name);
-
-                    startActivity(new Intent(this, ProfileActivity.class).putExtra("USERNAME", username)
-                            .putExtra("POSITION", place_name));
+                    if(isConnected())
+                    new DbCommunication(DbCommunication.OPERATIONS.PATCH).newUserRegistration(email, password, username,
+                            place_name, this);
+                    else
+                        inputFailure(this,"Internet connection","There's no internet connection.");
                 } else {
-                    Toast.makeText(this ,"All field should be filled.",Toast.LENGTH_LONG).show();
+                    inputFailure(this, "Some inputs are incorrect.","Some fields are still empty.");
                 }
         });
 
@@ -92,7 +79,9 @@ public class RegisterActivity extends AppCompatActivity{
                 } else {
                     password_label.setTextColor(Color.parseColor("#ff0000"));
                     password_text.setText("");
-                    password_text.setHint("At least: 1 Uppercase, 1 lowercase, 1 number");
+                    inputFailure(this,
+                            "Some inputs are incorrect.",
+                            "Your password must have at least: 1 Uppercase, 1 lowercase and 1 digit.");
                 }
             }
         });
@@ -107,6 +96,9 @@ public class RegisterActivity extends AppCompatActivity{
                         email_label.setTextColor(Color.parseColor("#00ff00"));
                     } else {
                         email_label.setTextColor(Color.parseColor("#ff0000"));
+                        inputFailure(this,
+                                "Some inputs are incorrect.",
+                                "The format of your email is incorrect.");
                     }
                 }
             }
@@ -130,6 +122,9 @@ public class RegisterActivity extends AppCompatActivity{
                             username_label.setTextColor(Color.parseColor("#ff0000"));
                             username_text.setText("");
                             username_text.setHint("username already in use.");
+                            inputFailure(this,
+                                    "Some inputs are incorrect.",
+                                    "Username already in use.");
                         }
                         register.setActivated(true);
                     });
@@ -157,6 +152,7 @@ public class RegisterActivity extends AppCompatActivity{
         username_text.setText(savedValues.getString("username", ""));
         email_text.setText(savedValues.getString("email", ""));
         position_text.setText(savedValues.getString("position", ""));
+
     }
 
     private boolean checkValues(String email, String password, String username){
@@ -169,23 +165,5 @@ public class RegisterActivity extends AppCompatActivity{
         return passCheck;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu,menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.menu_home :
-                startActivity(new Intent(this,MainActivity.class));
-                return true;
-            case R.id.menu_settings:
-                startActivity(new Intent(this,SettingsActivity.class));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 }

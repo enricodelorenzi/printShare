@@ -5,6 +5,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:windowContentTransitions">true</item>
     </style>
 
     <style name="add_printer_button" parent="@android:style/Widget.Button"><item name="android:gravity">center_vertical|center_horizontal</item>
@@ -19,4 +21,5 @@
         <item name="android:focusable">true</item>
         <item name="android:clickable">true</item>
     </style>
+
 </resources>

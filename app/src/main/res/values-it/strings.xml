@@ -3,6 +3,7 @@
     <string name="title_activity_profile">Profilo</string>
 
     <!-- Search Activity -->
+    <string name="search">Cerca</string>
     <string name="send_button">Invia</string>
     <string name="origin_placeholder">Genova</string>
     <string name="result_textview">Risultati</string>
@@ -34,6 +35,9 @@
     <string name="profile_position_label">Posizione</string>
     <string name="profile_add_printer_button">Aggiungi una nuova stampante</string>
     <string name="profile_image">Immagine profilo</string>
+    <string name="no_printers_label">L\'utente non ha stampanti.</string>
+    <string name="modify">Modifica</string>
+    <string name="contact">Contatta</string>
 
     <!-- Menu -->
     <string name="menu_settings">Settings</string>
@@ -43,5 +47,17 @@
     <string name="order_result_title">Ordina i risultati</string>
     <string name="order_result_summary">Ordina i risultati secondo la distanza dagli utenti letti.</string>
 
+    <!-- AddPrinterActivity -->
+    <string name="model_label">Modello</string>
+    <string name="materials_label">Materiali</string>
+    <string name="printer_id_label">Name</string>
+    <string name="hint_printer_id">Inserire un identificativo unico.</string>
+    <string name="dimensioni">Dimensioni</string>
+    <string name="confirm">conferma</string>
+    <string name="cancel">Cancella</string>
 
+    <!-- LoginActivity -->
+    <string name="login">Accedi</string>
+    <string name="channel_name">printShare</string>
+    <string name="channel_description">Notification of printShare app</string>
 </resources>

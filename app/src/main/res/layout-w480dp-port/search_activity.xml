@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/search_main_layout"
+        android:background="@color/appBackground">
+
+    <TextView
+        style="@style/label"
+        android:id="@+id/search_printer_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/model_label"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="18dp"
+        android:textSize="@dimen/text_dim_480dp"/>
+
+    <Spinner
+        android:id="@+id/search_printer_model_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/search_printer_label"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        style="@style/label"
+        android:id="@+id/materials_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/search_printer_model_spinner"
+        android:layout_marginTop="16dp"
+        android:text="Materials"
+        android:textSize="@dimen/text_dim_480dp"/>
+
+    <include
+        android:id="@+id/search_materials_rv"
+        layout="@layout/rv"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@+id/materials_label"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        style="@style/label"
+        android:id="@+id/dimensions_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dimanesions"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/search_materials_rv"
+        android:textSize="@dimen/text_dim_480dp"/>
+
+    <include
+        layout="@layout/dimensions_layout"
+        android:id="@+id/dimensions_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dimensions_label"
+        android:layout_marginTop="16dp"
+        android:layout_centerHorizontal="true"/>
+
+
+    <RelativeLayout
+        android:id="@+id/results_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dimensions_layout">
+        <TextView
+            android:id="@+id/no_results"
+            android:textSize="@dimen/text_dim_480dp"
+            android:textColor="@color/colorText"
+            android:textAlignment="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/no_results"
+            android:layout_marginTop="32dp"
+            />
+
+        <include
+            layout="@layout/rv"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:id="@+id/results_rv"
+            android:layout_marginTop="16dp"/>
+    </RelativeLayout>
+    <Button
+        style="@style/btns"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/send_request_button"
+        android:text="@string/search"
+        android:textAllCaps="false"
+        android:layout_below="@+id/results_layout"
+        android:layout_marginTop="8dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="@dimen/text_dim_480dp"/>
+
+</RelativeLayout>
+</ScrollView>

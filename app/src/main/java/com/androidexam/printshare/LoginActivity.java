@@ -3,19 +3,14 @@ package com.androidexam.printshare;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import com.androidexam.printshare.utilities.DbCommunication;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends ActivityTemplate {
 
     private SharedPreferences savedValues;
 
@@ -39,8 +34,11 @@ public class LoginActivity extends AppCompatActivity {
         login = findViewById(R.id.login_button);
 
         login.setOnClickListener(v -> {
-            new DbCommunication().logIn(email_login_text.getText().toString(),password_text.getText().toString());
-            startActivity(new Intent(v.getContext(),ProfileActivity.class));
+            if(isConnected()) {
+                new DbCommunication(v.getContext()).logIn(email_login_text.getText().toString(), password_text.getText().toString());
+            } else {
+                inputFailure(this,"Internet connection","There's no internet connection.");
+            }
         });
     }
 
@@ -57,26 +55,5 @@ public class LoginActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         email_login_text.setText(savedValues.getString("email", ""));
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu,menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.menu_home :
-                startActivity(new Intent(this,MainActivity.class));
-                return true;
-            case R.id.menu_settings:
-                startActivity(new Intent(this,SettingsActivity.class));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 }
