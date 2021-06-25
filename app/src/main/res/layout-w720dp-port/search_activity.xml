@@ -34,7 +34,7 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/search_printer_model_spinner"
         android:layout_marginTop="16dp"
-        android:text="Materials"
+        android:text="@string/materials"
         android:textSize="@dimen/text_dim_720dp"/>
 
     <include
@@ -50,7 +50,7 @@
         android:id="@+id/dimensions_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Dimanesions"
+        android:text="@string/dimensions"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/search_materials_rv"
         android:textSize="@dimen/text_dim_720dp"/>

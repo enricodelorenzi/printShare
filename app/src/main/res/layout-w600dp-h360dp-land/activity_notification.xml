@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NotificationActivity"
+    android:background="@color/appBackground">
+
+    <include
+        android:id="@+id/notification_rv"
+        layout="@layout/rv"
+        android:layout_width="500dp"
+        android:layout_centerHorizontal="true"
+        android:layout_height="200dp"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/sync_button"
+        style="@style/btns"
+        android:text="Sync"
+        android:textSize="@dimen/text_dim_320dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/notification_rv"
+        android:layout_marginTop="32dp"
+        android:layout_centerHorizontal="true"/>
+
+
+</RelativeLayout>

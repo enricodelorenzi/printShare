@@ -157,6 +157,8 @@ public class ProfileActivity extends ActivityTemplate {
                     profile_position.setText(intent.getStringExtra("POSITION"));
                     if (R.id.empty_list_tv == viewSwitcher.getNextView().getId())
                         viewSwitcher.showNext();
+                    profile_modify_button.setVisibility(View.VISIBLE);
+                    profile_add_printer_button.setVisibility(View.VISIBLE);
                 }
                 break;
                 case "SEARCH": {
@@ -262,7 +264,10 @@ public class ProfileActivity extends ActivityTemplate {
 
     private void populateRV(String uid){
         ArrayList<PrinterListItem> mData = printersInit(uid, false);
-        if(mData.size() > 0) {
+        if(Objects.isNull(mData)) {
+            if (R.id.empty_list_tv == viewSwitcher.getNextView().getId())
+                viewSwitcher.showNext();
+        } else if(mData.size() > 0) {
             recyclerView.setAdapter(new PrinterAdapter(mData, this, null));
             if(R.id.my_recycle_view == viewSwitcher.getNextView().getId())
                 viewSwitcher.showNext();

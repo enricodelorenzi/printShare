@@ -6,6 +6,7 @@ import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -32,6 +33,7 @@ public class RegisterActivity extends ActivityTemplate{
     private EditText email_text;
     private EditText password_text;
     private boolean checked[] = new boolean[3];
+    private TextView username_label;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,7 +42,7 @@ public class RegisterActivity extends ActivityTemplate{
 
         savedValues = getSharedPreferences("RegistrationSavedValues", MODE_PRIVATE);
 
-        TextView username_label = findViewById(R.id.username_label);
+        username_label = findViewById(R.id.username_label);
         username_text =  findViewById(R.id.username_text);
         TextView position_label = findViewById(R.id.position_label);
         position_text =  findViewById(R.id.position_text);
@@ -50,6 +52,8 @@ public class RegisterActivity extends ActivityTemplate{
         email_text =  findViewById(R.id.email_text);
         password_text =  findViewById(R.id.password_text);
 
+        register.setFocusable(true);
+        register.setFocusableInTouchMode(true);
         register.setOnClickListener(v -> {
 
                 String email = email_text.getText().toString();
@@ -103,33 +107,33 @@ public class RegisterActivity extends ActivityTemplate{
                 }
             }
         });
+
+        email_text.setOnEditorActionListener((v, actionId, event) -> {
+            if(actionId == EditorInfo.IME_ACTION_NEXT || actionId == EditorInfo.IME_ACTION_DONE)
+                register.requestFocus();
+            return true;
+        });
+
         username_text.setOnFocusChangeListener((v,hasFocus)->{
-            if(!hasFocus){
-                String s = ((EditText)v).getText().toString();
-                Handler handler = new Handler();
-                List<String> queries = new ArrayList<>();
-                Collections.addAll(queries, "orderBy=\"metadata/username\"","equalTo=\""+s+"\"");
-                Executors.newSingleThreadExecutor().execute(()->{
-                    //TODO verificare se impedisce il click.
-                    register.setActivated(false);
-                    JSONObject result = new DbCommunication().template("GET",FIREBASE_DB_ROOT_URL+"users",null, queries);
-                    boolean check = result.length() == 0;
-                    handler.post(()->{
-                        checked[0] = check;
-                        if(checked[0]){
-                            username_label.setTextColor(Color.parseColor("#00ff00"));
-                        } else {
-                            username_label.setTextColor(Color.parseColor("#ff0000"));
-                            username_text.setText("");
-                            username_text.setHint("username already in use.");
-                            inputFailure(this,
-                                    "Some inputs are incorrect.",
-                                    "Username already in use.");
-                        }
-                        register.setActivated(true);
+            String cleaned_username = username_text.getText().toString().trim();
+            Pattern username_pattern = Pattern.compile("^[\\S]+");
+            Matcher m = username_pattern.matcher(cleaned_username);
+            checked[0] = m.matches();
+                if (!hasFocus) {
+                    String s = ((EditText) v).getText().toString();
+                    Handler handler = new Handler();
+                    List<String> queries = new ArrayList<>();
+                    Collections.addAll(queries, "orderBy=\"metadata/username\"", "equalTo=\"" + s + "\"");
+                    Executors.newSingleThreadExecutor().execute(() -> {
+                        register.setActivated(false);
+                        JSONObject result = new DbCommunication().template("GET", FIREBASE_DB_ROOT_URL + "users", null, queries);
+                        boolean check = result.length() == 0;
+                        handler.post(() -> {
+                            checked[0] = check || checked[0];
+                            register.setActivated(true);
+                        });
                     });
-                });
-            }
+                }
         });
     }
 
@@ -158,6 +162,19 @@ public class RegisterActivity extends ActivityTemplate{
     private boolean checkValues(String email, String password, String username){
         if(email.equals("") || password.equals("") || username.equals(""))
             return false;
+        if (checked[0]) {
+            username_label.setTextColor(Color.parseColor("#00ff00"));
+        } else {
+            inputFailure(this,
+                    "Some inputs are incorrect.",
+                    "Username can't contain whitespace.");
+            username_label.setTextColor(Color.parseColor("#ff0000"));
+            username_text.setText("");
+            username_text.setHint("username already in use.");
+            inputFailure(this,
+                    "Some inputs are incorrect.",
+                    "Username already in use.");
+        }
         boolean passCheck = true;
         for(boolean bit :checked){
             passCheck = passCheck && bit;

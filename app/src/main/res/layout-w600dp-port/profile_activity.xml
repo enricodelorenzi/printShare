@@ -5,22 +5,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@color/appBackground">
 
-    <ImageView
-        android:id="@+id/profile_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:srcCompat="@tools:sample/avatars"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="8dp"/>
-
     <TextView
         style="@style/label"
         android:id="@+id/profile_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/profile_image"
         android:layout_marginTop="48dp"
         android:text="@string/profile_username_label"
         android:textSize="@dimen/text_dim_600dp"/>

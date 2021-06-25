@@ -16,7 +16,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="48dp"
         android:text="@string/profile_username_label"
-        android:textSize="@dimen/text_dim_320dp"
+        android:textSize="@dimen/text_dim_600dp"
         android:maxLength="12"
         android:ems="15"/>
 
@@ -29,8 +29,16 @@
         android:layout_below="@+id/username_et"
         android:layout_marginTop="16dp"
         android:text="@string/profile_position_label"
-        android:textSize="@dimen/text_dim_320dp"
+        android:textSize="@dimen/text_dim_600dp"
         android:ems="15"/>
+
+
+    <include
+        layout="@layout/rv"
+        android:id="@+id/modify_printers_rv"
+        android:layout_below="@+id/position_et"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"/>
 
 
     <Button
@@ -39,10 +47,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/position_et"
+        android:layout_below="@+id/modify_printers_rv"
         android:layout_marginTop="64dp"
         android:text="@string/confirm"
-        android:textSize="@dimen/text_dim_320dp"/>
+        android:textSize="@dimen/text_dim_600dp"/>
 
     <ImageButton
         android:src="@android:drawable/ic_delete"
@@ -57,11 +65,11 @@
         style="@style/btns"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="delete"
-        android:layout_alignStart="@+id/modify_profile_confirm_button"
+        android:text="@string/delete_account"
+        android:layout_centerHorizontal="true"
         android:layout_below="@+id/modify_profile_confirm_button"
         android:layout_marginTop="16dp"
-        android:textSize="@dimen/text_dim_320dp"/>
+        android:textSize="@dimen/text_dim_600dp"/>
 
 
 </RelativeLayout>

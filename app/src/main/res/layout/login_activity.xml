@@ -35,7 +35,6 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textWebEmailAddress"
-        android:text="email"
         android:layout_below="@+id/email_login_label"
         android:layout_alignParentEnd="true"
         android:layout_toEndOf="@+id/email_login_label"
@@ -52,8 +51,7 @@
         android:layout_below="@+id/password_login_label"
         android:layout_alignStart="@+id/email_login"
         android:layout_alignEnd="@+id/email_login"
-        android:textSize="@dimen/text_dim_320dp"
-        android:text="password"/>
+        android:textSize="@dimen/text_dim_320dp"/>
 
     <Button
         style="@style/btns"

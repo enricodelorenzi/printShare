@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -162,7 +163,8 @@ public class ActivityTemplate extends AppCompatActivity {
             Future<JSONObject> future = executor.submit(task);
             try {
                 JSONObject obj = future.get();
-
+                if(Objects.isNull(obj))
+                    return null;
 //////////////////preparing user's printers list items. [START]
                 obj.keys().forEachRemaining( key -> {
                     try {

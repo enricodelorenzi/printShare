@@ -19,6 +19,8 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Objects;
+
 public class CheckNotifyWork extends Worker {
 
     private static final String CHANNEL_ID ="printShare";
@@ -38,6 +40,8 @@ public class CheckNotifyWork extends Worker {
         SessionManager sessionManager = new SessionManager(mContext);
         String to_user = sessionManager.getUsername();
         JSONObject obj = db.template("GET",FIREBASE_DB_ROOT_URL+"notify/"+to_user,null,null);
+        if(Objects.isNull(obj))
+            return  Result.failure();
         try {
             if(obj.has("readed") && obj.getString("readed").equals("null"))
                 return Result.failure();

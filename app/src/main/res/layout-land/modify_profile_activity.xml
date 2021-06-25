@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+<RelativeLayout android:layout_height="wrap_content"
+    android:layout_width="match_parent"
     android:background="@color/appBackground"
     android:focusable="true"
     android:clickable="true">
@@ -14,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="16dp"
         android:text="@string/profile_username_label"
         android:textSize="@dimen/text_dim_320dp"
         android:maxLength="12"
@@ -32,15 +35,23 @@
         android:textSize="@dimen/text_dim_320dp"
         android:ems="15"/>
 
+    <include
+        layout="@layout/rv"
+        android:id="@+id/modify_printers_rv"
+        android:layout_below="@+id/position_et"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"/>
+
+
 
     <Button
         style="@style/btns"
         android:id="@+id/modify_profile_confirm_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/position_et"
-        android:layout_marginTop="64dp"
+        android:layout_marginStart="160dp"
+        android:layout_below="@+id/modify_printers_rv"
+        android:layout_marginTop="16dp"
         android:text="@string/confirm"
         android:textSize="@dimen/text_dim_320dp"/>
 
@@ -57,11 +68,13 @@
         style="@style/btns"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="delete"
-        android:layout_alignStart="@+id/modify_profile_confirm_button"
-        android:layout_below="@+id/modify_profile_confirm_button"
+        android:text="@string/delete_account"
+        android:layout_toEndOf="@+id/modify_profile_confirm_button"
+        android:layout_alignBottom="@+id/modify_profile_confirm_button"
         android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
         android:textSize="@dimen/text_dim_320dp"/>
 
 
 </RelativeLayout>
+</ScrollView>

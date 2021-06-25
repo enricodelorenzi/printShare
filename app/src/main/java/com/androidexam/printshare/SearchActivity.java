@@ -90,6 +90,9 @@ public class SearchActivity extends ActivityTemplate{
         result_view = findViewById(R.id.results_rv).findViewById(R.id.my_recycle_view);
         no_result_view = findViewById(R.id.no_results);
 
+        ArrayList<PrinterListItem> no_data = new ArrayList<>();
+        no_data.add(new PrinterListItem("Init","Result will be show here.", false));
+        result_view.setAdapter(new PrinterAdapter(no_data, this, null));
 
         //search by model
         TextView search_printer_label = findViewById(R.id.search_printer_label);
@@ -148,10 +151,7 @@ public class SearchActivity extends ActivityTemplate{
 
         send.setOnClickListener(v -> {
 
-            result_view.setVisibility(View.GONE);
-            no_result_view.setVisibility(View.VISIBLE);
             if(isConnected()) {
-                no_result_view.setText("Searching...");
                 searchLogic();
             }
             else {
@@ -235,14 +235,12 @@ public class SearchActivity extends ActivityTemplate{
             }
         }
         if(results.isEmpty()) {
-            result_view.setVisibility(View.GONE);
-            no_result_view.setVisibility(View.VISIBLE);
-            no_result_view.setText("No users found.");
+            ArrayList<PrinterListItem> no_data = new ArrayList<>();
+            no_data.add(new PrinterListItem("No data","No users found", false));
+            result_view.setAdapter(new PrinterAdapter(no_data, this, null));
         }
         else{
             ArrayList<PrinterListItem> mData = new ArrayList<>();
-            result_view.setVisibility(View.VISIBLE);
-            no_result_view.setVisibility(View.GONE);
             Set<String> uids = uniqueUid(results);
             uids.forEach(uid -> {
                 String username = uidToUsername(uid);

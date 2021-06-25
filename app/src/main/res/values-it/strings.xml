@@ -60,4 +60,7 @@
     <string name="login">Accedi</string>
     <string name="channel_name">printShare</string>
     <string name="channel_description">Notification of printShare app</string>
+    <string name="delete_account">elimina account</string>
+    <string name="dimensions">Dimensioni</string>
+    <string name="materials">Materiali</string>
 </resources>
