@@ -87,6 +87,11 @@ public class ProfileActivity extends ActivityTemplate {
         profile_contact_button.setOnClickListener((v) -> {
             DbCommunication db = new DbCommunication();
             db.addNotification(sessionManager.getUsername(), profile_username.getText().toString(),"contact", true, "NONE");
+            new AlertDialog.Builder(this).setTitle("Notification sent")
+                .setMessage("User contacted.")
+                .setNeutralButton("ok", (dialog, which) -> {
+                    startActivity(new Intent(this, SearchActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                }).show();
         });
 
         profile_add_printer_button.setVisibility(View.GONE);

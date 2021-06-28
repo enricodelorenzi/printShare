@@ -91,7 +91,7 @@ public class SearchActivity extends ActivityTemplate{
         no_result_view = findViewById(R.id.no_results);
 
         ArrayList<PrinterListItem> no_data = new ArrayList<>();
-        no_data.add(new PrinterListItem("Init","Result will be show here.", false));
+        no_data.add(new PrinterListItem("Init","Result will be shown here.", false));
         result_view.setAdapter(new PrinterAdapter(no_data, this, null));
 
         //search by model
