@@ -90,7 +90,7 @@ public class ProfileActivity extends ActivityTemplate {
             new AlertDialog.Builder(this).setTitle("Notification sent")
                 .setMessage("User contacted.")
                 .setNeutralButton("ok", (dialog, which) -> {
-                    startActivity(new Intent(this, SearchActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                    startActivity(new Intent(this, SearchActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 }).show();
         });
 
