@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/appBackground">
+
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/printshare_icon"
+        android:contentDescription="@string/app_name"
+        android:layout_marginTop="@dimen/margin_top_320dp"/>
+
+    <Button
+        style="@style/btns"
+        android:id="@+id/home_registration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/home_login"
+        android:layout_marginTop="32dp"
+        android:text="@string/home_registration_button"
+        android:textSize="48sp"/>
+
+    <Button
+        style="@style/btns"
+        android:id="@+id/home_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:text="@string/home_login_button"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:textSize="48sp"/>
+
+</RelativeLayout>

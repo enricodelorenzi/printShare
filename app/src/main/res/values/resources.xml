@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <string-array name="printer_models">
+        <item>Select model</item>
+        <item>SLA</item>
+        <item>DLP</item>
+        <item>FDM</item>
+        <item>SLS</item>
+        <item>SLM</item>
+        <item>EBM</item>
+        <item>LOM</item>
+        <item>BJ</item>
+        <item>MJ</item>
+    </string-array>
+
+    <string-array name="materials">
+        <item>ABS</item>
+        <item>PLA</item>
+        <item>PET</item>
+        <item>NYLON</item>
+        <item>PVA</item>
+        <item>Sandstone</item>
+        <item>Wood</item>
+        <item>Metal PLA</item>
+        <item>Metal ABS</item>
+        <item>HIPS</item>
+        <item>Magnetic Iron PLA</item>
+        <item>Conductive ABS</item>
+        <item>Conductive PLA</item>
+        <item>Carbon Fiber</item>
+        <item>TPE</item>
+        <item>Glow in the dark</item>
+        <item>Amphora</item>
+    </string-array>
+
+    <string-array name = "Metals">
+        <item>Steel</item>
+        <item>Bronze</item>
+        <item>Brass</item>
+        <item>Copper</item>
+        <item>Aluminium</item>
+    </string-array>
+</resources>

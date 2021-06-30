@@ -1,0 +1,35 @@
+<resources>
+
+    <dimen name="margin_between">8dp</dimen>
+    <dimen name="margin_new_section">16dp</dimen>
+
+    <dimen name="textView_width_320dp">100dp</dimen>
+    <dimen name="et_width_320dp">160dp</dimen>
+    <dimen name="text_dim_320dp">16sp</dimen>
+    <dimen name="margin_top_320dp">32dp</dimen>
+    <dimen name="margin_start_320dp">32dp</dimen>
+
+    <dimen name="textView_width_480dp">140dp</dimen>
+    <dimen name="et_width_480dp">200dp</dimen>
+    <dimen name="text_dim_480dp">22sp</dimen>
+    <dimen name="margin_top_480dp">55dp</dimen>
+    <dimen name="margin_start_480dp">40dp</dimen>
+
+    <dimen name="textView_width_600dp">200dp</dimen>
+    <dimen name="et_width_600dp">260dp</dimen>
+    <dimen name="text_dim_600dp">32sp</dimen>
+    <dimen name="margin_top_600dp">70dp</dimen>
+    <dimen name="margin_start_600dp">60dp</dimen>
+
+    <dimen name="textView_width_720dp">260dp</dimen>
+    <dimen name="et_width_720dp">400dp</dimen>
+    <dimen name="text_dim_720dp">48sp</dimen>
+    <dimen name="margin_top_720dp">96dp</dimen>
+    <dimen name="margin_start_720dp">96dp</dimen>
+
+    <dimen name="textView_land">260dp</dimen>
+    <dimen name="et_width_land">400dp</dimen>
+    <dimen name="text_dim_land">32sp</dimen>
+    <dimen name="margin_top_land">48dp</dimen>
+    <dimen name="margin_start_land">96dp</dimen>
+</resources>

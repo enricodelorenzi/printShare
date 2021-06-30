@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">printShare</string>
+    <string name="title_activity_profile">Profilo</string>
+
+    <!-- Search Activity -->
+    <string name="search">Suchen</string>
+    <string name="send_button">Schiken</string>
+    <string name="origin_placeholder">München</string>
+    <string name="result_textview">Ergebnis</string>
+    <string name="no_results">Keine Ergebnis.</string>
+    <string name="no_input">Man hat kein Input eingegeben.</string>
+    <string name="no_internet_connection">Es gibt keine Internetverbindung</string>
+    <string name="loading">Warte...</string>
+    <string name="zero_results">Unmöglich zu messen</string>
+    <string name="same_location">Er ist in der gleichen Stadt!</string>
+    <string name="printer_label">Modell</string>
+    <string name="place">Platz</string>
+
+    <!-- Registration Activity -->
+    <string name="username_label_registration">Username</string>
+    <string name="position_label_registration">Stadt</string>
+    <string name="email_label_registration">E-Mail</string>
+    <string name="password_label_registration">Passwort</string>
+    <string name="confirm_password_label_registration">Passwort wiederholen</string>
+    <string name="registration_button">Machst neues Account</string>
+
+    <!-- Main Activity -->
+    <string name="home_login_button">Login</string>
+    <string name="home_registration_button">Registrierung</string>
+    <string name="home_search_button">Suchen</string>
+    <string name="home_test_button">Test</string>
+
+    <!-- Profile Activity-->
+    <string name="profile_username_label">Username</string>
+    <string name="profile_position_label">Platz</string>
+    <string name="profile_add_printer_button">Gibst einen neuen Drücker ein</string>
+    <string name="profile_image">Bild</string>
+    <string name="no_printers_label">Der User hat noch keine Drücker.</string>
+    <string name="modify">Ändern</string>
+    <string name="contact">Kontaktieren</string>
+
+    <!-- Menu -->
+    <string name="menu_settings">Settings</string>
+    <string name="menu_home">Home</string>
+
+    <!-- Settings-->
+    <string name="order_result_title">Ergebnis zu ordnen</string>
+    <string name="order_result_summary">Keine Ahnung wie sagt man in Deutsch.</string>
+
+    <!-- AddPrinterActivity -->
+    <string name="model_label">Model</string>
+    <string name="materials_label">Materialen</string>
+    <string name="printer_id_label">Name</string>
+    <string name="hint_printer_id">Gibt ein einzigartige Id ein.</string>
+    <string name="dimensioni">Dimensioni</string>
+    <string name="confirm">Bestätigen</string>
+    <string name="cancel">Löschen</string>
+
+    <!-- LoginActivity -->
+    <string name="login">Anmelden</string>
+    <string name="channel_name">printShare</string>
+    <string name="channel_description">Notification of printShare app</string>
+    <string name="delete_account">delete account</string>
+    <string name="dimensions">Dimensions</string>
+    <string name="materials">Materials</string>
+
+
+</resources>

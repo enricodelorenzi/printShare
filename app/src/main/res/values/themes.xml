@@ -1,0 +1,25 @@
+<resources>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:buttonStyle">@style/add_printer_button</item>
+        <item name="android:windowBackground">@color/appBackground</item>
+    </style>
+
+    <style name="btns" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:textColor">@color/labelTextColor</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="label" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/labelTextColor</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>

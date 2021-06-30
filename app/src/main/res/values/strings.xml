@@ -1,3 +1,68 @@
 <resources>
     <string name="app_name">printShare</string>
+    <string name="title_activity_profile">ProfileActivity</string>
+
+    <!-- Search Activity -->
+    <string name="search">Search</string>
+    <string name="send_button">Send</string>
+    <string name="origin_placeholder">Innsbruck</string>
+    <string name="result_textview">Results</string>
+    <string name="no_results">No results found.</string>
+    <string name="no_input">No input found.</string>
+    <string name="no_internet_connection">There is no internet connection</string>
+    <string name="loading">Loading...</string>
+    <string name="zero_results">Impossible to evaluate distance.</string>
+    <string name="same_location">User is in your same city!</string>
+    <string name="printer_label">Model</string>
+    <string name="place">Place</string>
+
+    <!-- Registration Activity -->
+    <string name="username_label_registration">Username</string>
+    <string name="position_label_registration">Position</string>
+    <string name="email_label_registration">E-Mail</string>
+    <string name="password_label_registration">Password</string>
+    <string name="confirm_password_label_registration">Confirm password</string>
+    <string name="registration_button">Create new account</string>
+
+    <!-- Main Activity -->
+    <string name="home_login_button">Login</string>
+    <string name="home_registration_button">Registration</string>
+    <string name="home_search_button">Search</string>
+    <string name="home_test_button">Test</string>
+
+    <!-- Profile Activity-->
+    <string name="profile_username_label">Username</string>
+    <string name="profile_position_label">Place</string>
+    <string name="profile_add_printer_button">Add a new printer</string>
+    <string name="profile_image">Profile\'s image</string>
+    <string name="no_printers_label">User has no printers yet.</string>
+    <string name="modify">Modify</string>
+    <string name="contact">Contact</string>
+
+
+    <!-- Menu -->
+    <string name="menu_settings">Settings</string>
+    <string name="menu_home">Home</string>
+
+    <!-- Settings-->
+    <string name="order_result_title">Order searched results</string>
+    <string name="order_result_summary">Order the output of a search by distance for retrieved users.</string>
+
+    <!-- AddPrinterActivity -->
+    <string name="model_label">Model</string>
+    <string name="materials_label">Materials</string>
+    <string name="printer_id_label">Name</string>
+    <string name="hint_printer_id">Insert a unique id</string>
+    <string name="dimensioni">Dimensions</string>
+    <string name="confirm">confirm</string>
+    <string name="cancel">Cancel</string>
+
+    <!-- LoginActivity -->
+    <string name="login">Login</string>
+    <string name="channel_name">printShare</string>
+    <string name="channel_description">Notification of printShare app</string>
+    <string name="delete_account">delete account</string>
+    <string name="dimensions">Dimensions</string>
+    <string name="materials">Materials</string>
+
 </resources>

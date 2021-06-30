@@ -1,106 +1,97 @@
 package com.androidexam.printshare;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.view.View.OnClickListener;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Button;
 
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
+import com.androidexam.printshare.utilities.SessionManager;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.ByteBuffer;
+import java.util.Objects;
 
+public class MainActivity extends ActivityTemplate implements OnClickListener {
 
-public class MainActivity extends Activity {
-
-    Database db;
-
-    EditText username_text;
-    EditText position_text;
-    TextView username_label;
-    TextView position_label;
-    TextView country_name;
-    Button register;
-    Button get_location;
-    FusedLocationProviderClient fusedLocationProviderClient;
+    private static final String CHANNEL_ID ="printShare";
+    private SessionManager sessionManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Button registration = findViewById(R.id.home_registration);
+        Button login = findViewById(R.id.home_login);
 
-        username_label = (TextView) findViewById(R.id.username_label);
-        username_text = (EditText) findViewById(R.id.username_text);
-        position_label = (TextView) findViewById(R.id.position_label);
-        country_name = (TextView) findViewById(R.id.country_name);
-        position_text = (EditText) findViewById(R.id.position_text);
-        register = (Button) findViewById(R.id.register);
-        get_location = (Button) findViewById(R.id.get_location);
+        sessionManager = new SessionManager(this);
 
-        //initialize fusedLocationProviderClient
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        get_location.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                    //if permission granted
-                    fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Location> task) {
-                            Location location = task.getResult();
-                           if (location != null) {
-                                try {
-                                    Geocoder geocoder = new Geocoder(MainActivity.this, Locale.getDefault());
-                                    //Address
-                                    List<Address> address = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                                    position_text.setText(address.get(0).getAddressLine(0));
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-                    });
-                } else {
-                    ActivityCompat.requestPermissions(MainActivity.this,
-                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
-                }
-            }
-
-        });
-
-        //db part
-        db = new Database(FirebaseDatabase.getInstance());
-
-        db.clean();
-
-        register.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                db.register(new User(username_text.getText().toString(), position_text.getText().toString()));
-            }
-        });
-
-        db.readUserFromDb("second_username");
-
+        registration.setOnClickListener(this);
+        login.setOnClickListener(this);
+////////////////////////////////////////////////////////////////////////
+        createNotificationChannel();
+////////////////////////////////////////////////////////////////////////
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //prima installazione: non esiste il file -> nullPointerException
+        if(Objects.nonNull(sessionManager.getUid()))
+            if(!sessionManager.getUid().equals(""))
+                startActivity(new Intent(this, ProfileActivity.class)
+                                    .putExtra("FROM","REDIRECT"));
+    }
 
+    @Override
+    public void onClick(View v) {
+            Intent intent;
+            switch (v.getId()) {
+                case R.id.home_registration: {
+                    intent = new Intent(v.getContext(), RegisterActivity.class);
+                    startActivity(intent);
+                }break;
+                case R.id.home_login: {
+                    intent = new Intent(v.getContext(), LoginActivity.class);
+                    startActivity(intent);
+                }break;
+                default:
+                    throw new IllegalStateException("Unexpected value: ");
+            }
+    }
+
+    @Override
+    protected void onResume() {
+        showOptions[0] = false;
+        showOptions[1] = false;
+        showOptions[2] = false;
+        super.onResume();
+    }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.channel_name);
+            String description = getString(R.string.channel_description);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
 }
