@@ -29,7 +29,7 @@
 
         <TextView
             android:textAlignment="center"
-            android:id="@+id/notification_content"
+            android:id="@+id/rv_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
